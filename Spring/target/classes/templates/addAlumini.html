@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>new product</title>
+    <link rel="stylesheet" th:href="@{../css/sr.css}">
+</head>
+<body>
+
+<div class="container">
+    <h2>ADD Alumini Deatail</h2>
+
+    <div th:if="${message != null}" class="message">
+        [[${message}]]
+    </div>
+
+    <form th:action="@{/addAlu}" method="post" role="form"th:object="${alumini}">
+        <div class="input-group">
+            <label for="name">Name:</label>
+            <input th:field="*{name}" type="text" id="name" name="name" placeholder="Enter Company Name" required>
+        </div>
+        <div class="input-group">
+            <label for="job">Year:</label>
+            <input th:field="*{year}" type="text" id="job" name="job" placeholder="Enter Alumini Year" required>
+        </div>
+        <div class="input-group">
+            <label for="location">Department:</label>
+            <input th:field="*{department}" type="text" id="location" name="location" placeholder="Enter Alumini Department" required>
+        </div>
+        <div class="input-group">
+            <label for="sala">Phone:</label>
+            <input th:field="*{phone}" type="text" id="sala" name="sal" placeholder="Enter Alumini phone Number" required>
+        </div>
+        <div class="input-group">
+            <label for="li">LinkedIn:</label>
+            <input th:field="*{linkedin}" type="text" id="li" name="sal" placeholder="Enter Alumini LinkedIn id" required>
+        </div>
+        <div class="input-group">
+            <label for="round">Git:</label>
+            <input th:field="*{git}" type="text" id="round" name="round" placeholder="Enter Git id" required>
+        </div>
+        <div class="input-group">
+            <label for="com">Company:</label>
+            <input th:field="*{company}" type="text" id="com" name="round" placeholder="Enter Alumini Company" required>
+        </div>
+        <div class="input-group">
+            <label for="sal">Salary:</label>
+            <input th:field="*{salary}" type="text" id="sal" name="round" placeholder="Enter Alumini Salary" required>
+        </div>
+        <div class="input-group">
+            <label for="exp">Drive Experience:</label>
+            <textarea th:field="*{exp}" name="content" id="exp" rows="4" cols="40"></textarea>
+        </div>
+        <button type="submit" class="btn">ADD</button>
+    </form>
+</div>
+</body>
+</html>

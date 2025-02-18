@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #004f83;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .container h2 {
+            color: #00A5E3;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        .input-group input {
+            width: 285px;
+            padding: 5px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            border: 1px solid #00A5E3;
+            border-radius: 5px;
+        }
+
+        .form-check {
+            text-align: left;
+        }
+
+        .input-group input:focus {
+            outline-color: #00A5E3;
+        }
+
+        .btn {
+            background-color: #00A5E3;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #0077A8;
+        }
+
+        .message {
+            background-color: #0077A8;
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        p {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="left-section">
+        <h2>Student Login</h2>
+
+        <div th:if="${message != null}" class="message">
+            [[${message}]]
+        </div>
+
+        <form th:action="@{/login}" method="post" role="form" th:object="${user}">
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input th:field="*{email}" type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="input-group">
+                <label for="pass">Password:</label>
+                <input th:field="*{password}" type="password" id="pass" name="pass" placeholder="Enter your Password" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+    </div>
+
+</div>
+
+<div>
+    <img th:src="@{'/images/cps.png'}" class="img-fluid">
+</div>
+
+</body>
+</html>

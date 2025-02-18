@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCB</title>
+    <link rel="stylesheet" th:href="@{../css/sr.css}">
+</head>
+<body>
+
+<div class="container">
+    <h2>ADD STUDENT</h2>
+
+    <div th:if="${message != null}" class="message">
+        [[${message}]]
+    </div>
+
+    <form th:action="@{/product}" method="post" role="form"th:object="${product}">
+        <div class="input-group">
+            <label for="name">Name:</label>
+            <input th:field="*{name}" type="text" id="name" name="name" placeholder="Enter Your Name" required>
+        </div>
+        <div class="input-group">
+            <label for="job">ROLL NO:</label>
+            <input th:field="*{rno}" type="text" id="job" name="job" placeholder="Enter Your rollno" required>
+        </div>
+        <div class="input-group">
+            <label for="location">CGPA:</label>
+            <input th:field="*{cgpa}" type="text" id="location" name="location" placeholder="Enter Your cgpa" required>
+        </div>
+        <div class="input-group">
+            <label for="loc">COMPANY:</label>
+            <input th:field="*{company}" type="text" id="loc" name="location" placeholder="Enter Your Interest Company " required>
+        </div>
+        <button type="submit" class="btn">OPT IN</button>
+    </form>
+</div>
+</body>
+</html>

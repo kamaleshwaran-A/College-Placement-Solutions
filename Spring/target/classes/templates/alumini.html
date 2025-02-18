@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" >
+  <title>Mini Store</title>
+  <style>
+    a{
+      text-decoration: none !important;
+    }
+    .btn {
+      background-color: #00A5E3 !important;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background-color: #0077A8 !important;
+    }
+    .container h2 {
+      color: #00A5E3;
+    }
+    .input-group {
+      margin-bottom: 10px;
+    }
+    .input-group label {
+      display: block;
+      font-weight: bold;
+      text-align: left;
+    }
+    .input-group input {
+      width: 285px;
+      padding: 5px;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      border: 1px solid #00A5E3;
+      border-radius: 5px;
+    }
+    .form-check {
+      text-align: left;
+    }
+    .input-group input:focus {
+      outline-color: #00A5E3;
+    }
+    .container {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      width: 300px;
+      text-align: left;
+    }
+    /* Additional styles for organizing forms */
+    #product {
+      margin: auto;
+      margin-top: 50px;
+    }
+    #product .form-group {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="user-profile">
+    <i class="bx bx-user-circle"></i>
+  </div>
+  <div class="logout">
+    <form th:action="@{/logout}" method="post">
+      <button type="submit" class="btn">Logout</button>
+    </form>
+  </div>
+</div>
+
+<div class="sidebar">
+  <div class="logo_details">
+    <img th:src="@{'/images/cps.png'}" height="100" width="100" >
+  </div>
+  <ul class="nav-list">
+    <li>
+      <a th:href = "@{/home}">
+        <i class="bx bx-home" ></i>
+      </a>
+      <span class="tooltip">Home</span>
+    </li>
+    <li>
+      <a th:href = "@{/com}">
+        <i class="bx bx-buildings" ></i>
+      </a>
+      <span class="tooltip">Company</span>
+    </li>
+    <li>
+      <a  th:href = "@{/allDrive}">
+        <i class="bx bx-briefcase-alt" ></i>
+      </a>
+      <span class="tooltip">Drive</span>
+    </li>
+    <li>
+      <a th:href = "@{/talk}">
+        <i class="bx bx-bulb" ></i>
+      </a>
+      <span class="tooltip">Pre-Talk</span>
+    </li>
+    <li>
+      <a th:href = "@{/alumini}">
+        <i class="bx bx-user"></i>
+      </a>
+      <span class="tooltip">Alumni</span>
+    </li>
+    <li>
+      <a th:href = "@{/past}">
+        <i class="bx bx-sort-up"></i>
+      </a>
+      <span class="tooltip">Past Placement</span>
+    </li>
+  </ul>
+</div>
+
+<h1 style="text-align: center">ALUMNI SEARCH ENGINE</h1>
+
+<div id="product" class="container">
+  <div>
+    <form action="/alumini2" method="GET" class="form-group">
+      <label for="name" >Alumni Name:</label>
+      <input type="text" id="name" name="name" class="form-control" placeholder="Enter Alumni Name">
+      <button type="submit" class="btn btn-primary mt-3">Search</button>
+    </form>
+
+    <form action="/alumini3" method="GET" class="form-group">
+      <label for="com">Company Name:</label>
+      <input type="text" id="com" name="name" class="form-control" placeholder="Enter Alumni Company" required>
+      <button type="submit" class="btn btn-primary mt-3">Search</button>
+    </form>
+
+    <form action="/alumini1" method="GET" class="form-group">
+      <label for="year">Year:</label>
+      <input type="text" id="year" name="name" class="form-control" placeholder="Enter Alumni Year" required>
+      <button type="submit" class="btn btn-primary mt-3">Search</button>
+    </form>
+    <a th:href = "@{/allAlu}" class = "btn btn-primary">All Alumini</a>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+</body>
+</html>

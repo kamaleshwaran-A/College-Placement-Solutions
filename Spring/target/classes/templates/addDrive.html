@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCB</title>
+    <link rel="stylesheet" th:href="@{../css/sr.css}">
+</head>
+<body>
+
+<div class="container">
+    <h2>ADD Drive</h2>
+
+    <div th:if="${message != null}" class="message">
+        [[${message}]]
+    </div>
+
+    <form th:action="@{/drive}" method="post" role="form"th:object="${drive}">
+        <div class="input-group">
+            <label for="name">Company Name:</label>
+            <input th:field="*{name}" type="text" id="name" name="name" placeholder="Enter Company Name" required>
+        </div>
+        <div class="input-group">
+            <label for="file">Image:</label>
+            <input th:field="*{image}" type="file" id="file" name="file" accept="image/*" >
+        </div>
+        <div class="input-group">
+            <label for="job">Job:</label>
+            <input th:field="*{job}" type="text" id="job" name="job" placeholder="Enter Job Role" required>
+        </div>
+        <div class="input-group">
+            <label for="location">Location:</label>
+            <input th:field="*{location}" type="text" id="location" name="location" placeholder="Enter Company Location" required>
+        </div>
+        <div class="input-group">
+            <label for="sal">Salary:</label>
+            <input th:field="*{salary}" type="text" id="sal" name="sal" placeholder="Enter salary" required>
+        </div>
+        <div class="input-group">
+            <label for="description">Description:</label>
+            <textarea th:field="*{description}" name="content" id="description" rows="4" cols="40"></textarea>
+        </div>
+        <div class="input-group">
+            <label for="round">Round:</label>
+            <input th:field="*{round}" type="text" id="round" name="round" placeholder="Enter Round Details" required>
+        </div>
+
+        <button type="submit" class="btn">ADD</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>CPS</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+    :root{
+      --color-default:#004f83;
+      --color-second:#0067ac;
+      --color-white:#fff;
+      --color-body:#e4e9f7;
+      --color-light:#e0e0e0;
+    }
+
+
+    *{
+      padding: 0%;
+      margin: 0%;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body{
+      min-height: 100vh;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      background-color: var(--color-default);
+      color: #fff;
+    }
+    .user-profile, .logout {
+      display: flex;
+      align-items: center;
+    }
+    .user-profile i {
+      font-size: 24px;
+      color: white;
+      margin-right: 20px;
+    }
+    .btn {
+      background-color: #00A5E3;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background-color: #0077A8;
+    }
+    .navbar .logo_details {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar .user-profile {
+      margin-left: auto;
+    }
+
+    .navbar .user-profile i {
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .sidebar{
+      min-height: 100vh;
+      width: 78px;
+      padding: 6px 14px;
+      z-index: 99;
+      background-color: var(--color-default);
+      transition: all .5s ease;
+      position: fixed;
+      top:0;
+      left: 0;
+    }
+
+    .sidebar.open{
+      width: 250px;
+    }
+
+    .sidebar .logo_details{
+      height: 100px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    .sidebar .logo_details .icon{
+
+      opacity: 0;
+      transition: all 0.5s ease ;
+    }
+
+    .sidebar .logo_details .logo_name{
+      color:var(--color-white);
+      font-size: 22px;
+      font-weight: 600;
+      opacity: 0;
+      transition: all .5s ease;
+    }
+
+    .sidebar.open .logo_details .icon,
+    .sidebar.open .logo_details .logo_name{
+      opacity: 1;
+    }
+
+    .sidebar .logo_details #btn{
+      position: absolute;
+      top:50%;
+      right: 0;
+      transform: translateY(-50%);
+      font-size: 23px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .5s ease;
+    }
+
+    .sidebar.open .logo_details #btn{
+      text-align: right;
+    }
+
+    .sidebar i{
+      color:var(--color-white);
+      height: 60px;
+      line-height: 60px;
+      min-width: 50px;
+      font-size: 50px;
+      text-align: center;
+    }
+    .sidebar .bx {
+      color:var(--color-white);
+      height: 70px;
+      line-height: 60px;
+      min-width: 50px;
+      font-size: 2em;
+      text-align: center;
+
+    }
+
+    .sidebar .nav-list{
+      height: 100%;
+    }
+
+    .sidebar li{
+      position: relative;
+      margin:8px 0;
+      list-style: none;
+    }
+
+    .sidebar li .tooltip{
+      position: absolute;
+      top:-20px;
+      left:calc(100% + 15px);
+      z-index: 3;
+      background-color: var(--color-white);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+      padding: 6px 14px;
+      font-size: 15px;
+      font-weight: 400;
+      border-radius: 5px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .sidebar li:hover .tooltip{
+      opacity: 1;
+      pointer-events: auto;
+      transition: all 0.4s ease;
+      top:50%;
+      transform: translateY(-50%);
+    }
+
+    .sidebar.open li .tooltip{
+      display: none;
+    }
+
+
+    .sidebar li a{
+      display: flex;
+      height: 100%;
+      width: 100%;
+      align-items: center;
+      text-decoration: none;
+      background-color: var(--color-default);
+      position: relative;
+      transition: all .5s ease;
+      z-index: 12;
+    }
+
+    .sidebar li a::after{
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform: scaleX(0);
+      background-color: var(--color-white);
+      border-radius: 5px;
+      transition: transform 0.3s ease-in-out;
+      transform-origin: left;
+      z-index: -2;
+    }
+
+    .sidebar li a:hover::after{
+      transform: scaleX(1);
+      color:var(--color-default)
+    }
+
+    .sidebar li a .link_name{
+      color:var(--color-white);
+      font-size: 15px;
+      font-weight: 400;
+      white-space: nowrap;
+      pointer-events: auto;
+      transition: all 0.4s ease;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .sidebar li a:hover .link_name,
+    .sidebar li a:hover i{
+      transition: all 0.5s ease;
+      color:var(--color-default)
+    }
+
+    .sidebar.open li a .link_name{
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .sidebar li i{
+      height: 35px;
+      line-height: 35px;
+      font-size: 18px;
+      border-radius: 5px;
+    }
+    #cont1{
+      padding-left: 100px;
+    }
+    #cont2{
+      padding-left: 90px;
+    }
+    #cont3{
+      padding-left: 90px;
+    }
+    #cont4{
+      padding-left: 90px;
+    }
+    h1{
+      color: blue;
+    }
+    a{
+      color:black
+    }
+  </style>
+</head>
+<body>
+
+
+<div class="navbar">
+  <div class="user-profile">
+    <i class="bx bx-user-circle"></i>
+  </div>
+  <div class="logout">
+    <form th:action="@{/logout}" method="post">
+      <button type="submit" class="btn">Logout</button>
+    </form>
+  </div>
+</div>
+<div class="sidebar">
+  <div class="logo_details">
+    <img th:src="@{'/images/cps.png'}" height="100" width="100" >
+  </div>
+  <ul class="nav-list">
+    <li>
+      <a th:href = "@{/home}">
+        <i class="bx bx-home" ></i>
+      </a>
+      <span class="tooltip">Home</span>
+    </li>
+    <li>
+      <a th:href = "@{/com}">
+        <i class="bx bx-buildings" ></i>
+      </a>
+      <span class="tooltip">Company</span>
+    </li>
+    <li>
+      <a  th:href = "@{/allDrive}">
+        <i class="bx bx-briefcase-alt" ></i>
+      </a>
+      <span class="tooltip">Drive</span>
+    </li>
+    <li>
+      <a th:href = "@{/talk}">
+        <i class="bx bx-bulb" ></i>
+      </a>
+      <span class="tooltip">Pre-Talk</span>
+    </li>
+    <li>
+      <a th:href = "@{/alumini}">
+        <i class="bx bx-user"></i>
+      </a>
+      <span class="tooltip">Alumini</span>
+    </li>
+    <li>
+      <a th:href = "@{/past}">
+        <i class="bx bx-sort-up"></i>
+      </a>
+      <span class="tooltip">Past Placement</span>
+    </li>
+  </ul>
+</div>
+<div id="cont2">
+  <h1>Training Cell:</h1>
+</div>
+
+
+<div  id="cont1">
+  <p>The Training Cell plays a vital role in students’ success and it is one of the cornerstones of the Institute. This cell is committed to enhance the professional skills of the students for meeting the industrial needs. It organizes more than 350 hours of trainings which include the following:</p>
+  <ul>
+    <li>Quantitative Aptitude and Logical Reasoning</li>
+    <li>Soft skills</li>
+    <li>Verbal Ability and Communicative Skills</li>
+    <li>Aptitude Shortcut Methods with Speed Maths</li>
+    <li>Problem Solving Skills</li>
+    <li>Advanced Technical Training</li>
+    <li>Full Stack Development Training</li>
+    <li>Company Specific Training</li>
+    <li>Skill Enhancement Training for Super Dream Companies</li>
+    <li>Mock interview & Placement readiness Sessions through industry experts</li>
+    <li>Professional Grooming Training</li>
+    <li>Core Training</li>
+    <li>Competitive Coding Platform Training</li>
+    <li>Boot camp</li>
+    <li>Hackathon</li>
+    <li>Coding Contest</li>
+  </ul>
+  <br>
+  <h1>Training Details:</h1>
+  <p>Use the below links for more details:</p>
+  <ul>
+    <li> <a href="https://www.kongu.ac.in/placement/training/2021-22_Training_Details.pdf">2021-22</a></li>
+    <li> <a href="https://www.kongu.ac.in/placement/training/2020-21_Training_Details.pdf">2020-21</a></li>
+    <li> <a href="https://www.kongu.ac.in/placement/training/2019-20_Training_Details.pdf">2019-20</a></li>
+  </ul>
+  <br>
+  <h1>Training Schedules:</h1>
+  <p>Use the links to get to know more about training schedules:</p>
+  <ul>
+    <li> <a href="https://www.kongu.ac.in/placement/docs/TrainingSchedule(2019-2023Batch).pdf">2019-2023 Batch</a></li>
+    <li> <a href="https://www.kongu.ac.in/placement/docs/TrainingSchedule(2018-2022Batch).pdf">2018-2022 Batch</a></li>
+    <li> <a href="https://www.kongu.ac.in/placement/docs/TrainingSchedule(2017-2021Batch).pdf">2017-2021 Batch</a></li>
+  </ul>
+</div>
+
+</body>
+</html>
