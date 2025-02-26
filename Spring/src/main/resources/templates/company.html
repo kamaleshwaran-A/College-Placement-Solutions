@@ -3,112 +3,686 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Details - College Placement Portal</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Boxicons CSS -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="../css/style.css">
-    <title>Mini Store</title>
+    <!-- Custom CSS -->
     <style>
-        a{
-            text-decoration: none !important;
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+          --color-primary: #004f83;
+          --color-secondary: #0067ac;
+          --color-accent: #00A5E3;
+          --color-white: #fff;
+          --color-light: #f4f7fb;
+          --color-dark: #212529;
+          --color-gray: #6c757d;
+          --transition-speed: 0.3s;
+          --sidebar-width: 78px;
+          --sidebar-expanded-width: 250px;
         }
-        .btn {
-            background-color: #00A5E3 !important;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
+
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          font-family: 'Poppins', sans-serif;
         }
-        .btn:hover {
-            background-color: #0077A8 !important;
+
+        body {
+          min-height: 100vh;
+          background-color: var(--color-light);
+          overflow-x: hidden;
+          position: relative;
+        }
+
+        /* Watermark */
+        body::before {
+          content: "";
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-image: url('https://collegeplacementsolutions.com/wp-content/uploads/College-Placement-Solutions-Logo.png');
+          background-repeat: no-repeat;
+          background-size: 20% auto;
+          background-position: center;
+          opacity: 0.05;
+          z-index: -1;
+        }
+
+        /* Navbar styles */
+        .top-navbar {
+          position: fixed;
+          top: 0;
+          left: var(--sidebar-width);
+          right: 0;
+          height: 70px;
+          background-color: var(--color-white);
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 30px;
+          z-index: 100;
+          transition: left var(--transition-speed);
+        }
+
+        .sidebar.open ~ .top-navbar {
+          left: var(--sidebar-expanded-width);
+        }
+
+        .navbar-title {
+          font-size: 1.4rem;
+          font-weight: 600;
+          color: var(--color-primary);
+        }
+
+        .navbar-actions {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+        }
+
+        .user-profile {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .user-profile i {
+          font-size: 24px;
+          color: var(--color-primary);
+        }
+
+        .user-info {
+          display: none;
+          flex-direction: column;
+        }
+
+        .user-name {
+          font-weight: 600;
+          font-size: 0.9rem;
+          line-height: 1.2;
+        }
+
+        .user-role {
+          font-size: 0.75rem;
+          color: var(--color-gray);
+        }
+
+        .btn-logout {
+          background-color: var(--color-accent);
+          color: var(--color-white);
+          border: none;
+          padding: 8px 16px;
+          border-radius: 5px;
+          font-weight: 500;
+          transition: background-color var(--transition-speed);
+        }
+
+        .btn-logout:hover {
+          background-color: #0077A8;
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+          position: fixed;
+          left: 0;
+          top: 0;
+          height: 100%;
+          width: var(--sidebar-width);
+          background-color: var(--color-primary);
+          z-index: 200;
+          transition: width var(--transition-speed);
+          box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+          overflow-x: hidden;
+        }
+
+        .sidebar.open {
+          width: var(--sidebar-expanded-width);
+        }
+
+        .logo-details {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 70px;
+          position: relative;
+          padding: 10px 0;
+        }
+
+        .logo-details img {
+          width: 50px;
+          height: 50px;
+          transition: all var(--transition-speed);
+        }
+
+        .sidebar.open .logo-details img {
+          width: 60px;
+          height: 60px;
+          margin-right: 10px;
+        }
+
+        .logo-name {
+          color: var(--color-white);
+          font-size: 20px;
+          font-weight: 600;
+          opacity: 0;
+          transition: all var(--transition-speed);
+          white-space: nowrap;
+        }
+
+        .sidebar.open .logo-name {
+          opacity: 1;
+        }
+
+        .toggle-btn {
+          position: absolute;
+          top: 50%;
+          right: 10px;
+          transform: translateY(-50%);
+          font-size: 22px;
+          color: var(--color-white);
+          cursor: pointer;
+          opacity: 0;
+          transition: all var(--transition-speed);
+        }
+
+        .sidebar.open .toggle-btn {
+          opacity: 1;
+        }
+
+        .nav-list {
+          margin-top: 20px;
+          padding: 0;
+        }
+
+        .nav-item {
+          position: relative;
+          list-style: none;
+          margin: 5px 0;
+          transition: all var(--transition-speed);
+        }
+
+        .nav-link {
+          display: flex;
+          align-items: center;
+          text-decoration: none;
+          border-radius: 6px;
+          margin: 0 8px;
+          padding: 10px;
+          transition: all var(--transition-speed);
+        }
+
+        .nav-link:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+          background-color: var(--color-accent);
+        }
+
+        .nav-icon {
+          min-width: 50px;
+          font-size: 1.5rem;
+          color: var(--color-white);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .nav-text {
+          color: var(--color-white);
+          font-size: 15px;
+          font-weight: 400;
+          white-space: nowrap;
+          opacity: 0;
+          transition: opacity var(--transition-speed);
+        }
+
+        .sidebar.open .nav-text {
+          opacity: 1;
+        }
+
+        .tooltip {
+          position: absolute;
+          top: 50%;
+          left: calc(100% + 10px);
+          transform: translateY(-50%);
+          background-color: var(--color-white);
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+          padding: 6px 12px;
+          border-radius: 4px;
+          font-size: 14px;
+          color: var(--color-dark);
+          white-space: nowrap;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity var(--transition-speed);
+          z-index: 300;
+        }
+
+        .nav-item:hover .tooltip {
+          opacity: 1;
+        }
+
+        .sidebar.open .tooltip {
+          display: none;
+        }
+
+        /* Main content */
+        .main-content {
+          margin-left: var(--sidebar-width);
+          margin-top: 70px;
+          padding: 30px;
+          transition: margin-left var(--transition-speed);
+        }
+
+        .sidebar.open ~ .main-content {
+          margin-left: var(--sidebar-expanded-width);
+        }
+
+        .page-title {
+          color: var(--color-primary);
+          font-size: 2rem;
+          font-weight: 700;
+          margin-bottom: 30px;
+          text-align: center;
+          padding-bottom: 15px;
+          border-bottom: 2px solid var(--color-accent);
+        }
+
+        /* Year cards */
+        .year-cards {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+          gap: 25px;
+          margin-bottom: 40px;
+        }
+
+        .year-card {
+          background-color: var(--color-white);
+          border-radius: 10px;
+          overflow: hidden;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          text-decoration: none;
+          color: var(--color-dark);
+        }
+
+        .year-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .year-card-header {
+          background-color: var(--color-primary);
+          color: var(--color-white);
+          padding: 15px 20px;
+          font-size: 1.5rem;
+          font-weight: 600;
+          text-align: center;
+        }
+
+        .year-card-body {
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .year-card-stat {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          margin-bottom: 15px;
+        }
+
+        .stat-label {
+          color: var(--color-gray);
+          font-size: 0.9rem;
+        }
+
+        .stat-value {
+          font-weight: 600;
+          color: var(--color-secondary);
+        }
+
+        .year-card-button {
+          margin-top: 10px;
+          padding: 8px 20px;
+          background-color: var(--color-accent);
+          color: var(--color-white);
+          border: none;
+          border-radius: 5px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: background-color 0.2s;
+        }
+
+        .year-card-button:hover {
+          background-color: #0077A8;
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 992px) {
+          .user-info {
+            display: flex;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .top-navbar {
+            padding: 0 15px;
+          }
+
+          .main-content {
+            padding: 20px 15px;
+          }
+
+          .year-cards {
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 15px;
+          }
         }
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" >
 </head>
 <body>
-
-<div class="navbar">
-    <div class="user-profile">
-        <i class="bx bx-user-circle"></i>
-    </div>
-    <div class="logout">
-        <form th:action="@{/logout}" method="post">
-            <button type="submit" class="btn">Logout</button>
-        </form>
-    </div>
-</div>
+<!-- Sidebar -->
 <div class="sidebar">
-    <div class="logo_details">
-        <img th:src="@{'/images/cps.png'}" height="100" width="100" >
+    <div class="logo-details">
+        <img th:src="@{'/images/cps.png'}" alt="CPS Logo">
+        <span class="logo-name">Placement Portal</span>
+        <i class='bx bx-menu toggle-btn'></i>
     </div>
     <ul class="nav-list">
-        <li>
-            <a th:href = "@{/home}">
-                <i class="bx bx-home" ></i>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/home}">
+                <i class='bx bx-home nav-icon'></i>
+                <span class="nav-text">Home</span>
             </a>
             <span class="tooltip">Home</span>
         </li>
-        <li>
-            <a th:href = "@{/com}">
-                <i class="bx bx-buildings" ></i>
+        <li class="nav-item">
+            <a class="nav-link active" th:href="@{/com}">
+                <i class='bx bx-buildings nav-icon'></i>
+                <span class="nav-text">Companies</span>
             </a>
-            <span class="tooltip">Company</span>
+            <span class="tooltip">Companies</span>
         </li>
-        <li>
-            <a  th:href = "@{/allDrive}">
-                <i class="bx bx-briefcase-alt" ></i>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/allDrive}">
+                <i class='bx bx-briefcase-alt nav-icon'></i>
+                <span class="nav-text">Drives</span>
             </a>
-            <span class="tooltip">Drive</span>
+            <span class="tooltip">Drives</span>
         </li>
-        <li>
-            <a th:href = "@{/talk}">
-                <i class="bx bx-bulb" ></i>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/talk}">
+                <i class='bx bx-bulb nav-icon'></i>
+                <span class="nav-text">Pre-Talk</span>
             </a>
             <span class="tooltip">Pre-Talk</span>
         </li>
-        <li>
-            <a th:href = "@{/alumini}">
-                <i class="bx bx-user"></i>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/alumini}">
+                <i class='bx bx-user nav-icon'></i>
+                <span class="nav-text">Alumni</span>
             </a>
-            <span class="tooltip">Alumini</span>
+            <span class="tooltip">Alumni</span>
         </li>
-        <li>
-            <a th:href = "@{/past}">
-                <i class="bx bx-sort-up"></i>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/past}">
+                <i class='bx bx-sort-up nav-icon'></i>
+                <span class="nav-text">Past Placements</span>
             </a>
-            <span class="tooltip">Past Placement</span>
+            <span class="tooltip">Past Placements</span>
         </li>
     </ul>
 </div>
-<h1 style="text-align: center">COMPANY DETAILS</h1>
-<div id="product1" class="container">
-    <div class="row" >
-        <div class="col-lg-4 col-md-4 col-12"  >
-            <a th:href = "@{/2024}" >
-            <div class="card" >
-                <h1>2023-2024</h1>
+
+<!-- Top Navbar -->
+<div class="top-navbar">
+    <div class="navbar-title">College Placement Solutions</div>
+    <div class="navbar-actions">
+        <div class="user-profile">
+            <i class='bx bx-user-circle'></i>
+            <div class="user-info">
+                <div class="user-role">Student</div>
             </div>
-            </a>
         </div>
-        <div class="col-lg-4 col-md-4 col-12"  >
-            <a th:href = "@{/2023}" >
-            <div class="card" >
-                <h1>2022-2023</h1>
-            </div>
-            </a>
-        </div>
-        <div class="col-lg-4 col-md-4 col-12"  >
-            <a th:href = "@{/2022}" >
-            <div class="card" >
-                <h1>2021-2022</h1>
-            </div>
-            </a>
-        </div>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn-logout">
+                <i class='bx bx-log-out-circle'></i> Logout
+            </button>
+        </form>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
+<!-- Main Content -->
+<div class="main-content">
+    <h1 class="page-title">Company Details by Placement Year</h1>
+
+    <div class="year-cards">
+        <a class="year-card" th:href="@{/2024}">
+            <div class="year-card-header">2023-2024</div>
+            <div class="year-card-body">
+                <div class="year-card-stat">
+                    <span class="stat-label">Companies Visited:</span>
+                    <span class="stat-value">85+</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Highest Package:</span>
+                    <span class="stat-value">18 LPA</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Placement Rate:</span>
+                    <span class="stat-value">93%</span>
+                </div>
+                <button class="year-card-button">View Details</button>
+            </div>
+        </a>
+
+        <a class="year-card" th:href="@{/2024}">
+            <div class="year-card-header">2022-2023</div>
+            <div class="year-card-body">
+                <div class="year-card-stat">
+                    <span class="stat-label">Companies Visited:</span>
+                    <span class="stat-value">78</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Highest Package:</span>
+                    <span class="stat-value">16.8 LPA</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Placement Rate:</span>
+                    <span class="stat-value">91%</span>
+                </div>
+                <button class="year-card-button">View Details</button>
+            </div>
+        </a>
+
+        <a class="year-card" th:href="@{/2024}">
+            <div class="year-card-header">2021-2022</div>
+            <div class="year-card-body">
+                <div class="year-card-stat">
+                    <span class="stat-label">Companies Visited:</span>
+                    <span class="stat-value">72</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Highest Package:</span>
+                    <span class="stat-value">15.5 LPA</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Placement Rate:</span>
+                    <span class="stat-value">89%</span>
+                </div>
+                <button class="year-card-button">View Details</button>
+            </div>
+        </a>
+
+        <a class="year-card" th:href="@{/2024}">
+            <div class="year-card-header">2020-2021</div>
+            <div class="year-card-body">
+                <div class="year-card-stat">
+                    <span class="stat-label">Companies Visited:</span>
+                    <span class="stat-value">64</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Highest Package:</span>
+                    <span class="stat-value">14.2 LPA</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Placement Rate:</span>
+                    <span class="stat-value">84%</span>
+                </div>
+                <button class="year-card-button">View Details</button>
+            </div>
+        </a>
+
+        <a class="year-card" th:href="@{/2024}">
+            <div class="year-card-header">2019-2020</div>
+            <div class="year-card-body">
+                <div class="year-card-stat">
+                    <span class="stat-label">Companies Visited:</span>
+                    <span class="stat-value">69</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Highest Package:</span>
+                    <span class="stat-value">14.0 LPA</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Placement Rate:</span>
+                    <span class="stat-value">86%</span>
+                </div>
+                <button class="year-card-button">View Details</button>
+            </div>
+        </a>
+
+        <a class="year-card" th:href="@{/2024}">
+            <div class="year-card-header">2018-2019</div>
+            <div class="year-card-body">
+                <div class="year-card-stat">
+                    <span class="stat-label">Companies Visited:</span>
+                    <span class="stat-value">65</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Highest Package:</span>
+                    <span class="stat-value">12.8 LPA</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Placement Rate:</span>
+                    <span class="stat-value">83%</span>
+                </div>
+                <button class="year-card-button">View Details</button>
+            </div>
+        </a>
+
+        <a class="year-card" th:href="@{/2024}">
+            <div class="year-card-header">2017-2018</div>
+            <div class="year-card-body">
+                <div class="year-card-stat">
+                    <span class="stat-label">Companies Visited:</span>
+                    <span class="stat-value">58</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Highest Package:</span>
+                    <span class="stat-value">12.0 LPA</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Placement Rate:</span>
+                    <span class="stat-value">80%</span>
+                </div>
+                <button class="year-card-button">View Details</button>
+            </div>
+        </a>
+
+        <a class="year-card" th:href="@{/2024}">
+            <div class="year-card-header">2016-2017</div>
+            <div class="year-card-body">
+                <div class="year-card-stat">
+                    <span class="stat-label">Companies Visited:</span>
+                    <span class="stat-value">55</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Highest Package:</span>
+                    <span class="stat-value">10.5 LPA</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Placement Rate:</span>
+                    <span class="stat-value">78%</span>
+                </div>
+                <button class="year-card-button">View Details</button>
+            </div>
+        </a>
+
+        <a class="year-card" th:href="@{/2024}">
+            <div class="year-card-header">2015-2016</div>
+            <div class="year-card-body">
+                <div class="year-card-stat">
+                    <span class="stat-label">Companies Visited:</span>
+                    <span class="stat-value">48</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Highest Package:</span>
+                    <span class="stat-value">9.8 LPA</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Placement Rate:</span>
+                    <span class="stat-value">75%</span>
+                </div>
+                <button class="year-card-button">View Details</button>
+            </div>
+        </a>
+
+        <a class="year-card" th:href="@{/2024}">
+            <div class="year-card-header">2014-2015</div>
+            <div class="year-card-body">
+                <div class="year-card-stat">
+                    <span class="stat-label">Companies Visited:</span>
+                    <span class="stat-value">42</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Highest Package:</span>
+                    <span class="stat-value">8.5 LPA</span>
+                </div>
+                <div class="year-card-stat">
+                    <span class="stat-label">Placement Rate:</span>
+                    <span class="stat-value">72%</span>
+                </div>
+                <button class="year-card-button">View Details</button>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sidebar = document.querySelector('.sidebar');
+      const toggleBtn = document.querySelector('.toggle-btn');
+
+      // Toggle sidebar on button click
+      toggleBtn.addEventListener('click', function() {
+        sidebar.classList.toggle('open');
+      });
+
+      // Close sidebar when clicking outside on mobile
+      document.addEventListener('click', function(event) {
+        const isClickInsideSidebar = sidebar.contains(event.target);
+        const isClickOnToggleBtn = toggleBtn.contains(event.target);
+
+        if (!isClickInsideSidebar && !isClickOnToggleBtn && window.innerWidth <= 768) {
+          sidebar.classList.remove('open');
+        }
+      });
+    });
+</script>
 </body>
 </html>

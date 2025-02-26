@@ -3,63 +3,379 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCB</title>
+    <title>Student Placement Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #00A5E3!important;
+        :root {
+            --primary-color: #2C3E50;
+            --secondary-color: #3498DB;
+            --text-color: #2C3E50;
+            --light-bg: #F5F6FA;
+            --section-padding: 2rem;
+        }
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+            padding: 0 0 2rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header Section */
+        .profile-header {
+            background: linear-gradient(135deg, #2C3E50, #3498DB);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .profile-intro {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .profile-photo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid white;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .profile-name-title {
+            flex-grow: 1;
+        }
+
+        .profile-name-title h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .profile-name-title p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Section Styling */
+        .section {
+            background: white;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: var(--section-padding);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        /* Details Grid */
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .detail-item {
+            padding: 1.5rem;
+            background: var(--light-bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .detail-item i {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            width: 40px;
+            text-align: center;
+        }
+
+        .detail-item div {
+            flex-grow: 1;
+        }
+
+        .detail-item strong {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: var(--primary-color);
+        }
+
+        /* Tips Section */
+        .tips-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tips-list li {
+            background: var(--light-bg);
+            padding: 1.5rem 1.5rem 1.5rem 3.5rem;
+            border-radius: 10px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .tips-list li:hover {
+            transform: translateY(-3px);
+        }
+
+        .tips-list li::before {
+            content: '\f0eb';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: var(--secondary-color);
+            position: absolute;
+            left: 1.5rem;
+            top: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 0.5rem;
+        }
+
+        .skill-tag {
+            padding: 0.8rem 1.5rem;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+            background: var(--light-bg);
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        /* Social Links */
+        .social-links {
             display: flex;
             justify-content: center;
+            gap: 3rem;
+            padding: 1rem 0;
+        }
+
+        .social-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
             align-items: center;
-            height: 100vh;
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" >
-    <style>
-        .card
-        {
-            background: #e5e5e5;
-            border: none !important;
-            border-radius: 20px !important;
-        }
-        .card:hover
-        {
-            box-shadow: inset 5px 5px 10px rgba(0,0,0,.3),
-            inset -4px -4px 10px rgb(249, 234, 234);
-            transition: .2s;
-
+            gap: 0.8rem;
+            font-size: 1.2rem;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
+        .social-links a:hover {
+            background: var(--light-bg);
+            color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .profile-intro {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .profile-photo {
+                width: 150px;
+                height: 150px;
+            }
+
+            .details-grid,
+            .tips-list {
+                grid-template-columns: 1fr;
+            }
+
+            .social-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .social-links a {
+                width: 100%;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <div class="row">
-        <div >
-            <div class="card" >
-                <div class="row no-gutters">
-                    <div class="col-sm-5 d-flex justify-content-center" th:if="${pro != null}">
-                        <img height="400px" width="250px"   th:src="@{'/images/stu.jpeg'}" >
-                    </div>
-                    <div class="col-sm-5 card-body">
-                        <h5  ><b>NAME: </b><span th:text="${pro.name}"></span></h5>
-                        <h5 ><b>YEAR:  </b><span  th:text="${pro.year}"></span></h5>
-                        <h5><b>DEPT:   </b><span th:text="${pro.department}"></span></h5>
-                        <h5><b>COMPANY: </b><span th:text="${pro.company}"></span></h5>
-                        <h5  ><b>PHONE: </b><span th:text="${pro.phone}"></span></h5>
-                        <h5 ><b>LINKEDIN: </b><span th:text="${pro.linkedin}"></span></h5>
-                        <h5 ><b>GIT:  </b>
-                            <span  th:text="${pro.git}"></span></h5>
-                        <h5  ><b>SALARY   </b>₹<span class="card-title" th:text="${pro.salary}"></span>LPA</h5>
-                        <h5  ><b>EXPERIENCE:</b><br><span th:text="${pro.exp}"></span></h5>
-                    </div>
-                </div>
+<header class="profile-header">
+    <div class="container">
+        <div class="profile-intro">
+            <img class="profile-photo" th:src="@{'/images/stu.jpeg'}" alt="Profile Photo">
+            <div class="profile-name-title">
+                <h1 th:text="${pro.name}">John Doe</h1>
+                <p>Software Development Engineer</p>
+                <p th:text="${pro.department}">Computer Science</p>
             </div>
         </div>
     </div>
-</div>
+</header>
+
+<main class="container">
+    <section class="section">
+        <h2 class="section-title">Professional Summary</h2>
+        <div class="details-grid">
+            <div class="detail-item">
+                <i class="fas fa-building"></i>
+                <div>
+                    <strong>Company</strong>
+                    <p th:text="${pro.company}">Tech Corp</p>
+                </div>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-money-bill-wave"></i>
+                <div>
+                    <strong>Package</strong>
+                    <p>₹<span th:text="${pro.salary}">12</span> LPA</p>
+                </div>
+            </div>
+            <div class="detail-item">
+                <i class="fas fa-graduation-cap"></i>
+                <div>
+                    <strong>Graduation Year</strong>
+                    <p th:text="${pro.year}">2024</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Experience</h2>
+        <div class="experience-item">
+            <h3 class="experience-title">Software Development Intern</h3>
+            <div class="experience-date">Summer 2023</div>
+            <p>Led the development of a full-stack web application, improving team productivity by 25%. Implemented RESTful APIs and optimized database queries, reducing response time by 40%.</p>
+        </div>
+        <div class="experience-item">
+            <h3 class="experience-title">Research Assistant</h3>
+            <div class="experience-date">Jan 2023 - May 2023</div>
+            <p>Collaborated on machine learning research projects, published 2 papers in international conferences. Developed algorithms for data analysis and visualization.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Skills & Technologies</h2>
+        <div class="skills-container">
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">React.js</span>
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">AWS</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">Machine Learning</span>
+            <span class="skill-tag">Data Structures</span>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Placement Journey Tips</h2>
+        <ul class="tips-list">
+            <li>Start preparation early - focus on core subjects and coding practice from day one</li>
+            <li>Maintain a consistent schedule for technical and aptitude preparation</li>
+            <li>Practice mock interviews regularly with peers and seniors</li>
+            <li>Build a strong portfolio with real-world projects and internships</li>
+            <li>Stay updated with industry trends and technology advancements</li>
+            <li>Network actively on LinkedIn and professional communities</li>
+        </ul>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Achievement Highlights</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div>Interview Success Rate</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">3</div>
+                <div>Offers Received</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">8.5</div>
+                <div>CGPA</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Connect With Me</h2>
+        <div class="social-links">
+            <a href="#" th:href="${pro.linkedin}" target="_blank">
+                <i class="fab fa-linkedin"></i>
+                <span>LinkedIn</span>
+            </a>
+            <a href="#" th:href="${pro.git}" target="_blank">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+            <a href="tel:${pro.phone}">
+                <i class="fas fa-phone"></i>
+                <span th:text="${pro.phone}">+1 234 567 8900</span>
+            </a>
+        </div>
+    </section>
+</main>
 </body>
 </html>

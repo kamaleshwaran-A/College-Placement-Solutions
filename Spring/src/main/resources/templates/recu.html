@@ -264,21 +264,21 @@
                 width: 100%;
                 padding: 1rem;
             }
-            
+
             .container {
                 margin-left: 0;
                 padding: 1rem;
             }
-            
+
             .sidebar.open ~ .container {
                 margin-left: 0;
             }
-            
+
             .table thead th {
                 font-size: 0.8rem;
                 padding: 1rem 0.5rem;
             }
-            
+
             .table td {
                 font-size: 0.85rem;
                 padding: 0.8rem 0.5rem;
@@ -290,8 +290,8 @@
 
 <div class="navbar">
     <div class="user-profile">
-       
- 
+
+
     </div>
     <div class="logout">
         <form th:action="@{/logout}" method="post">
@@ -328,7 +328,7 @@
             </a>
             <span class="tooltip">Alumni</span>
         </li>
-        
+
         <li>
             <a th:href="@{/student}">
                 <i class="bx bx-buildings"></i>
@@ -346,26 +346,26 @@
 
     <table class="table table-hover">
         <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Name</th>
-                <th scope="col">ROLLNO</th>
-                <th scope="col">CGPA</th>
-                <th scope="col">COMPANY</th>
-                <th scope="col">Action</th>
-            </tr>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">ROLLNO</th>
+            <th scope="col">CGPA</th>
+            <th scope="col">COMPANY</th>
+            <th scope="col">Action</th>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each="pro,iStat:${product}">
-                <th scope="row" th:text="${iStat.index +1}">1</th>
-                <td th:text="${pro.name}"></td>
-                <td th:text="${pro.rno}"></td>
-                <td th:text="${pro.cgpa}"></td>
-                <td th:text="${pro.company}"></td>
-                <td>
-                    <a th:href="@{/delete/{id}(id=${pro.id})}" class="btn btn-danger">OPTOUT</a>
-                </td>
-            </tr>
+        <tr th:each="pro,iStat:${product}">
+            <th scope="row" th:text="${iStat.index +1}">1</th>
+            <td th:text="${pro.name}"></td>
+            <td th:text="${pro.rno}"></td>
+            <td th:text="${pro.cgpa}"></td>
+            <td th:text="${pro.company}"></td>
+            <td>
+                <a th:href="@{/delete/{id}(id=${pro.id})}" class="btn btn-danger">OPTOUT</a>
+            </td>
+        </tr>
         </tbody>
     </table>
 </div>
@@ -375,7 +375,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         let sidebar = document.querySelector(".sidebar");
         let closeBtn = document.querySelector("#btn");
-        
+
         closeBtn?.addEventListener("click", () => {
             sidebar.classList.toggle("open");
         });

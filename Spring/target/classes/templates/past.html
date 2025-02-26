@@ -1,362 +1,592 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>CPS</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Training Cell</title>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-    :root{
-      --color-default:#004f83;
-      --color-second:#0067ac;
-      --color-white:#fff;
-      --color-body:#e4e9f7;
-      --color-light:#e0e0e0;
+    :root {
+      --color-primary: #004f83;
+      --color-secondary: #0067ac;
+      --color-accent: #00A5E3;
+      --color-white: #fff;
+      --color-light: #f4f7fb;
+      --color-dark: #212529;
+      --color-gray: #6c757d;
+      --transition-speed: 0.3s;
+      --sidebar-width: 78px;
+      --sidebar-expanded-width: 250px;
     }
 
-
-    *{
-      padding: 0%;
-      margin: 0%;
+    * {
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
     }
 
-    body{
+    body {
       min-height: 100vh;
-    }
-
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 30px;
-      background-color: var(--color-default);
-      color: #fff;
-    }
-    .user-profile, .logout {
-      display: flex;
-      align-items: center;
-    }
-    .user-profile i {
-      font-size: 24px;
-      color: white;
-      margin-right: 20px;
-    }
-    .btn {
-      background-color: #00A5E3;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .btn:hover {
-      background-color: #0077A8;
-    }
-    .navbar .logo_details {
-      display: flex;
-      align-items: center;
-    }
-
-    .navbar .user-profile {
-      margin-left: auto;
-    }
-
-    .navbar .user-profile i {
-      font-size: 24px;
-      cursor: pointer;
-    }
-    .sidebar{
-      min-height: 100vh;
-      width: 78px;
-      padding: 6px 14px;
-      z-index: 99;
-      background-color: var(--color-default);
-      transition: all .5s ease;
-      position: fixed;
-      top:0;
-      left: 0;
-    }
-
-    .sidebar.open{
-      width: 250px;
-    }
-
-    .sidebar .logo_details{
-      height: 100px;
-      display: flex;
-      align-items: center;
+      background-color: var(--color-light);
+      overflow-x: hidden;
       position: relative;
     }
-    .sidebar .logo_details .icon{
 
-      opacity: 0;
-      transition: all 0.5s ease ;
+    /* Watermark */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://collegeplacementsolutions.com/wp-content/uploads/College-Placement-Solutions-Logo.png');
+      background-repeat: no-repeat;
+      background-size: 20% auto;
+      background-position: center;
+      opacity: 0.05;
+      z-index: -1;
     }
 
-    .sidebar .logo_details .logo_name{
-      color:var(--color-white);
-      font-size: 22px;
+
+    /* Navbar styles */
+    .top-navbar {
+      position: fixed;
+      top: 0;
+      left: var(--sidebar-width);
+      right: 0;
+      height: 70px;
+      background-color: var(--color-white);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      z-index: 100;
+      transition: left var(--transition-speed);
+    }
+
+    .sidebar.open ~ .top-navbar {
+      left: var(--sidebar-expanded-width);
+    }
+
+    .navbar-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--color-primary);
+    }
+
+    .navbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-profile i {
+      font-size: 24px;
+      color: var(--color-primary);
+    }
+
+    .user-info {
+      display: none;
+      flex-direction: column;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+      line-height: 1.2;
+    }
+
+    .user-role {
+      font-size: 0.75rem;
+      color: var(--color-gray);
+    }
+
+    .btn-logout {
+      background-color: var(--color-accent);
+      color: var(--color-white);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      font-weight: 500;
+      transition: background-color var(--transition-speed);
+    }
+
+    .btn-logout:hover {
+      background-color: #0077A8;
+    }
+
+    /* Sidebar styles */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: var(--sidebar-width);
+      background-color: var(--color-primary);
+      z-index: 200;
+      transition: width var(--transition-speed);
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      overflow-x: hidden;
+    }
+
+    .sidebar.open {
+      width: var(--sidebar-expanded-width);
+    }
+
+    .logo-details {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 70px;
+      position: relative;
+      padding: 10px 0;
+    }
+
+    .logo-details img {
+      width: 50px;
+      height: 50px;
+      transition: all var(--transition-speed);
+    }
+
+    .sidebar.open .logo-details img {
+      width: 60px;
+      height: 60px;
+      margin-right: 10px;
+    }
+
+    .logo-name {
+      color: var(--color-white);
+      font-size: 20px;
       font-weight: 600;
       opacity: 0;
-      transition: all .5s ease;
+      transition: all var(--transition-speed);
+      white-space: nowrap;
     }
 
-    .sidebar.open .logo_details .icon,
-    .sidebar.open .logo_details .logo_name{
+    .sidebar.open .logo-name {
       opacity: 1;
     }
 
-    .sidebar .logo_details #btn{
+    .toggle-btn {
       position: absolute;
-      top:50%;
-      right: 0;
+      top: 50%;
+      right: 10px;
       transform: translateY(-50%);
-      font-size: 23px;
-      text-align: center;
+      font-size: 22px;
+      color: var(--color-white);
       cursor: pointer;
-      transition: all .5s ease;
+      opacity: 0;
+      transition: all var(--transition-speed);
     }
 
-    .sidebar.open .logo_details #btn{
-      text-align: right;
+    .sidebar.open .toggle-btn {
+      opacity: 1;
     }
 
-    .sidebar i{
-      color:var(--color-white);
-      height: 60px;
-      line-height: 60px;
-      min-width: 50px;
-      font-size: 50px;
-      text-align: center;
-    }
-    .sidebar .bx {
-      color:var(--color-white);
-      height: 70px;
-      line-height: 60px;
-      min-width: 50px;
-      font-size: 2em;
-      text-align: center;
-
+    .nav-list {
+      margin-top: 20px;
+      padding: 0;
     }
 
-    .sidebar .nav-list{
-      height: 100%;
-    }
-
-    .sidebar li{
+    .nav-item {
       position: relative;
-      margin:8px 0;
       list-style: none;
+      margin: 5px 0;
+      transition: all var(--transition-speed);
     }
 
-    .sidebar li .tooltip{
-      position: absolute;
-      top:-20px;
-      left:calc(100% + 15px);
-      z-index: 3;
-      background-color: var(--color-white);
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-      padding: 6px 14px;
+    .nav-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      border-radius: 6px;
+      margin: 0 8px;
+      padding: 10px;
+      transition: all var(--transition-speed);
+    }
+
+    .nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-link.active {
+      background-color: var(--color-accent);
+    }
+
+    .nav-icon {
+      min-width: 50px;
+      font-size: 1.5rem;
+      color: var(--color-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-text {
+      color: var(--color-white);
       font-size: 15px;
       font-weight: 400;
-      border-radius: 5px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity var(--transition-speed);
+    }
+
+    .sidebar.open .nav-text {
+      opacity: 1;
+    }
+
+    .tooltip {
+      position: absolute;
+      top: 50%;
+      left: calc(100% + 10px);
+      transform: translateY(-50%);
+      background-color: var(--color-white);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 14px;
+      color: var(--color-dark);
       white-space: nowrap;
       opacity: 0;
       pointer-events: none;
+      transition: opacity var(--transition-speed);
+      z-index: 300;
     }
 
-    .sidebar li:hover .tooltip{
+    .nav-item:hover .tooltip {
       opacity: 1;
-      pointer-events: auto;
-      transition: all 0.4s ease;
-      top:50%;
-      transform: translateY(-50%);
     }
 
-    .sidebar.open li .tooltip{
+    .sidebar.open .tooltip {
       display: none;
     }
 
-
-    .sidebar li a{
-      display: flex;
-      height: 100%;
-      width: 100%;
-      align-items: center;
-      text-decoration: none;
-      background-color: var(--color-default);
-      position: relative;
-      transition: all .5s ease;
-      z-index: 12;
+    /* Main Content Styles */
+    .main-content {
+      margin-left: var(--sidebar-width);
+      margin-top: 70px;
+      padding: 30px;
+      transition: margin-left var(--transition-speed);
     }
 
-    .sidebar li a::after{
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      transform: scaleX(0);
+    .sidebar.open ~ .main-content {
+      margin-left: var(--sidebar-expanded-width);
+    }
+
+    .section {
       background-color: var(--color-white);
-      border-radius: 5px;
-      transition: transform 0.3s ease-in-out;
-      transform-origin: left;
-      z-index: -2;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
     }
 
-    .sidebar li a:hover::after{
-      transform: scaleX(1);
-      color:var(--color-default)
+    .section-title {
+      color: var(--color-primary);
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
     }
 
-    .sidebar li a .link_name{
-      color:var(--color-white);
-      font-size: 15px;
-      font-weight: 400;
-      white-space: nowrap;
-      pointer-events: auto;
-      transition: all 0.4s ease;
-      pointer-events: none;
-      opacity: 0;
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background-color: var(--color-accent);
     }
 
-    .sidebar li a:hover .link_name,
-    .sidebar li a:hover i{
-      transition: all 0.5s ease;
-      color:var(--color-default)
+    .section-text {
+      color: var(--color-dark);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
     }
 
-    .sidebar.open li a .link_name{
-      opacity: 1;
-      pointer-events: auto;
+    .function-item {
+      margin-bottom: 20px;
     }
 
-    .sidebar li i{
-      height: 35px;
-      line-height: 35px;
-      font-size: 18px;
-      border-radius: 5px;
+    .function-title {
+      color: var(--color-secondary);
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 10px;
     }
-    #cont1{
-      padding-left: 100px;
+
+
+    .training-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
     }
-    #cont2{
-      padding-left: 90px;
+
+    .training-card {
+        background: var(--white);
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    #cont3{
-      padding-left: 90px;
+
+    .training-card h3 {
+        color: var(--secondary-color);
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
-    #cont4{
-      padding-left: 90px;
+
+    .training-list {
+        list-style: none;
     }
-    h1{
-      color: blue;
+
+    .training-list li {
+        margin: 10px 0;
+        padding-left: 20px;
+        position: relative;
     }
-    a{
-      color:black
+
+    .training-list li::before {
+        content: "•";
+        color: var(--accent-color);
+        position: absolute;
+        left: 0;
+    }
+
+    .document-links {
+        margin-top: 20px;
+    }
+
+    .document-links a {
+        display: block;
+        color: var(--secondary-color);
+        text-decoration: none;
+        margin: 10px 0;
+        transition: color 0.3s;
+    }
+
+    .document-links a:hover {
+        color: var(--accent-color);
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .stat-card {
+        background: var(--primary-color);
+        color: var(--white);
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .stat-card .number {
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .stat-card .label {
+        font-size: 14px;
+        opacity: 0.9;
     }
   </style>
 </head>
 <body>
-
-
-<div class="navbar">
-  <div class="user-profile">
-    <i class="bx bx-user-circle"></i>
-  </div>
-  <div class="logout">
-    <form th:action="@{/logout}" method="post">
-      <button type="submit" class="btn">Logout</button>
-    </form>
-  </div>
-</div>
+<!-- Sidebar -->
 <div class="sidebar">
-  <div class="logo_details">
-    <img th:src="@{'/images/cps.png'}" height="100" width="100" >
+  <div class="logo-details">
+    <img th:src="@{'/images/cps.png'}" alt="CPS Logo">
+    <span class="logo-name">Placement Portal</span>
+    <i class='bx bx-menu toggle-btn'></i>
   </div>
   <ul class="nav-list">
-    <li>
-      <a th:href = "@{/home}">
-        <i class="bx bx-home" ></i>
+    <li class="nav-item">
+      <a class="nav-link " th:href="@{/home}">
+        <i class='bx bx-home nav-icon'></i>
+        <span class="nav-text">Home</span>
       </a>
       <span class="tooltip">Home</span>
     </li>
-    <li>
-      <a th:href = "@{/com}">
-        <i class="bx bx-buildings" ></i>
+    <li class="nav-item">
+      <a class="nav-link" th:href="@{/com}">
+        <i class='bx bx-buildings nav-icon'></i>
+        <span class="nav-text">Companies</span>
       </a>
-      <span class="tooltip">Company</span>
+      <span class="tooltip">Companies</span>
     </li>
-    <li>
-      <a  th:href = "@{/allDrive}">
-        <i class="bx bx-briefcase-alt" ></i>
+    <li class="nav-item">
+      <a class="nav-link" th:href="@{/allDrive}">
+        <i class='bx bx-briefcase-alt nav-icon'></i>
+        <span class="nav-text">Drives</span>
       </a>
-      <span class="tooltip">Drive</span>
+      <span class="tooltip">Drives</span>
     </li>
-    <li>
-      <a th:href = "@{/talk}">
-        <i class="bx bx-bulb" ></i>
+    <li class="nav-item">
+      <a class="nav-link" th:href="@{/talk}">
+        <i class='bx bx-bulb nav-icon'></i>
+        <span class="nav-text">Pre-Talk</span>
       </a>
       <span class="tooltip">Pre-Talk</span>
     </li>
-    <li>
-      <a th:href = "@{/alumini}">
-        <i class="bx bx-user"></i>
+    <li class="nav-item">
+      <a class="nav-link" th:href="@{/alumini}">
+        <i class='bx bx-user nav-icon'></i>
+        <span class="nav-text">Alumni</span>
       </a>
-      <span class="tooltip">Alumini</span>
+      <span class="tooltip">Alumni</span>
     </li>
-    <li>
-      <a th:href = "@{/past}">
-        <i class="bx bx-sort-up"></i>
+    <li class="nav-item">
+      <a class="nav-link active" th:href="@{/past}">
+        <i class='bx bx-sort-up nav-icon'></i>
+        <span class="nav-text">Past Placements</span>
       </a>
-      <span class="tooltip">Past Placement</span>
+      <span class="tooltip">Past Placements</span>
     </li>
   </ul>
 </div>
-<div id="cont2">
-  <h1>Training Cell:</h1>
+
+<!-- Top Navbar -->
+<div class="top-navbar">
+  <div class="navbar-title">College Placement Solutions</div>
+  <div class="navbar-actions">
+    <div class="user-profile">
+      <i class='bx bx-user-circle'></i>
+      <div class="user-info">
+        <div class="user-role">Student</div>
+      </div>
+    </div>
+    <form th:action="@{/logout}" method="post">
+      <button type="submit" class="btn-logout">
+        <i class='bx bx-log-out-circle'></i> Logout
+      </button>
+    </form>
+  </div>
 </div>
 
+<!-- Main Content -->
+<div class="main-content">
+  <div class="section">
+    <h1 class="section-title">
+      <i class='bx bx
+-graduation'></i>
+      Training Cell
+    </h1>
+    <p>The Training Cell plays a vital role in students' success and is one of the cornerstones of the Institute. This cell is committed to enhancing the professional skills of students for meeting industrial needs. We organize more than 350 hours of comprehensive training programs.</p>
+  </div>
 
-<div  id="cont1">
-  <p>The Training Cell plays a vital role in students’ success and it is one of the cornerstones of the Institute. This cell is committed to enhance the professional skills of the students for meeting the industrial needs. It organizes more than 350 hours of trainings which include the following:</p>
-  <ul>
-    <li>Quantitative Aptitude and Logical Reasoning</li>
-    <li>Soft skills</li>
-    <li>Verbal Ability and Communicative Skills</li>
-    <li>Aptitude Shortcut Methods with Speed Maths</li>
-    <li>Problem Solving Skills</li>
-    <li>Advanced Technical Training</li>
-    <li>Full Stack Development Training</li>
-    <li>Company Specific Training</li>
-    <li>Skill Enhancement Training for Super Dream Companies</li>
-    <li>Mock interview & Placement readiness Sessions through industry experts</li>
-    <li>Professional Grooming Training</li>
-    <li>Core Training</li>
-    <li>Competitive Coding Platform Training</li>
-    <li>Boot camp</li>
-    <li>Hackathon</li>
-    <li>Coding Contest</li>
-  </ul>
-  <br>
-  <h1>Training Details:</h1>
-  <p>Use the below links for more details:</p>
-  <ul>
-    <li> <a href="https://www.kongu.ac.in/placement/training/2021-22_Training_Details.pdf">2021-22</a></li>
-    <li> <a href="https://www.kongu.ac.in/placement/training/2020-21_Training_Details.pdf">2020-21</a></li>
-    <li> <a href="https://www.kongu.ac.in/placement/training/2019-20_Training_Details.pdf">2019-20</a></li>
-  </ul>
-  <br>
-  <h1>Training Schedules:</h1>
-  <p>Use the links to get to know more about training schedules:</p>
-  <ul>
-    <li> <a href="https://www.kongu.ac.in/placement/docs/TrainingSchedule(2019-2023Batch).pdf">2019-2023 Batch</a></li>
-    <li> <a href="https://www.kongu.ac.in/placement/docs/TrainingSchedule(2018-2022Batch).pdf">2018-2022 Batch</a></li>
-    <li> <a href="https://www.kongu.ac.in/placement/docs/TrainingSchedule(2017-2021Batch).pdf">2017-2021 Batch</a></li>
-  </ul>
+  <div class="section">
+    <h2 class="section-title">
+      <i class='bx bx-book-open'></i>
+      Training Programs
+    </h2>
+    <div class="training-grid">
+      <div class="training-card">
+        <h3><i class='bx bx-code-alt'></i>Technical Skills</h3>
+        <ul class="training-list">
+          <li>Advanced Technical Training</li>
+          <li>Full Stack Development Training</li>
+          <li>Competitive Coding Platform Training</li>
+          <li>Problem Solving Skills</li>
+        </ul>
+      </div>
+      <div class="training-card">
+        <h3><i class='bx bx-brain'></i>Professional Development</h3>
+        <ul class="training-list">
+          <li>Quantitative Aptitude and Logical Reasoning</li>
+          <li>Soft skills</li>
+          <li>Verbal Ability and Communicative Skills</li>
+          <li>Professional Grooming Training</li>
+        </ul>
+      </div>
+      <div class="training-card">
+        <h3><i class='bx bx-briefcase'></i>Industry Preparation</h3>
+        <ul class="training-list">
+          <li>Company Specific Training</li>
+          <li>Skill Enhancement for Super Dream Companies</li>
+          <li>Mock Interviews & Placement Readiness</li>
+          <li>Core Training</li>
+        </ul>
+      </div>
+      <div class="training-card">
+        <h3><i class='bx bx-rocket'></i>Practical Experience</h3>
+        <ul class="training-list">
+          <li>Boot camp</li>
+          <li>Hackathon</li>
+          <li>Coding Contest</li>
+          <li>Speed Mathematics</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">
+      <i class='bx bx-file'></i>
+      Training Documents
+    </h2>
+    <div class="training-grid">
+      <div class="training-card">
+        <h3>Training Details</h3>
+        <div class="document-links">
+          <a href="https://www.kongu.ac.in/placement/training/2021-22_Training_Details.pdf">2021-22 Details</a>
+          <a href="https://www.kongu.ac.in/placement/training/2020-21_Training_Details.pdf">2020-21 Details</a>
+          <a href="https://www.kongu.ac.in/placement/training/2019-20_Training_Details.pdf">2019-20 Details</a>
+        </div>
+      </div>
+      <div class="training-card">
+        <h3>Training Schedules</h3>
+        <div class="document-links">
+          <a href="https://www.kongu.ac.in/placement/docs/TrainingSchedule(2019-2023Batch).pdf">2019-2023 Batch</a>
+          <a href="https://www.kongu.ac.in/placement/docs/TrainingSchedule(2018-2022Batch).pdf">2018-2022 Batch</a>
+          <a href="https://www.kongu.ac.in/placement/docs/TrainingSchedule(2017-2021Batch).pdf">2017-2021 Batch</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">
+      <i class='bx bx
+-stats'></i>
+      Key Statistics
+    </h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="number">350+</div>
+        <div class="label">Training Hours</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">1000+</div>
+        <div class="label">Students Trained</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">95%</div>
+        <div class="label">Placement Rate</div>
+      </div>
+    </div>
+  </div>
 </div>
-
 </body>
 </html>

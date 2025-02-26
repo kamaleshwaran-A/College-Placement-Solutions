@@ -1,442 +1,356 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>CPS</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+    <meta charset="UTF-8">
+    <title>Placement Status</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
-
-        :root{
-            --color-default:#004f83;
-            --color-second:#0067ac;
-            --color-white:#fff;
-            --color-body:#e4e9f7;
-            --color-light:#e0e0e0;
+        :root {
+            --primary-color: #0d6efd;
+            --light-blue: #f0f7ff;
         }
 
-
-        *{
-            padding: 0%;
-            margin: 0%;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
         }
 
-        body{
-            min-height: 100vh;
+        .stats-card {
+            background-color: var(--light-blue);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: transform 0.2s;
         }
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 30px;
-            background-color: var(--color-default);
-            color: #fff;
-        }
-        .user-profile, .logout {
-            display: flex;
-            align-items: center;
-        }
-        .user-profile i {
-            font-size: 24px;
-            color: white;
-            margin-right: 20px;
-        }
-        .btn {
-            background-color: #00A5E3;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .btn:hover {
-            background-color: #0077A8;
-        }
-        .navbar .logo_details {
-            display: flex;
-            align-items: center;
+        .stats-card:hover {
+            transform: translateY(-5px);
         }
 
-        .navbar .user-profile {
-            margin-left: auto;
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 1.5rem;
         }
 
-        .navbar .user-profile i {
-            font-size: 24px;
-            cursor: pointer;
-        }
-        .sidebar{
-            min-height: 100vh;
-            width: 78px;
-            padding: 6px 14px;
-            z-index: 99;
-            background-color: var(--color-default);
-            transition: all .5s ease;
-            position: fixed;
-            top:0;
-            left: 0;
-        }
-
-        .sidebar.open{
-            width: 250px;
-        }
-
-        .sidebar .logo_details{
-            height: 100px;
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-        .sidebar .logo_details .icon{
-
-            opacity: 0;
-            transition: all 0.5s ease ;
-        }
-
-        .sidebar .logo_details .logo_name{
-            color:var(--color-white);
-            font-size: 22px;
+        .table th {
+            background-color: var(--light-blue);
+            color: var(--primary-color);
             font-weight: 600;
-            opacity: 0;
-            transition: all .5s ease;
         }
 
-        .sidebar.open .logo_details .icon,
-        .sidebar.open .logo_details .logo_name{
-            opacity: 1;
+        .table tr:hover {
+            background-color: #f8f9fa;
         }
 
-        .sidebar .logo_details #btn{
-            position: absolute;
-            top:50%;
-            right: 0;
-            transform: translateY(-50%);
-            font-size: 23px;
-            text-align: center;
-            cursor: pointer;
-            transition: all .5s ease;
-        }
-
-        .sidebar.open .logo_details #btn{
-            text-align: right;
-        }
-
-        .sidebar i{
-            color:var(--color-white);
-            height: 60px;
-            line-height: 60px;
-            min-width: 50px;
-            font-size: 50px;
-            text-align: center;
-        }
-        .sidebar .bx {
-            color:var(--color-white);
-            height: 70px;
-            line-height: 60px;
-            min-width: 50px;
-            font-size: 2em;
-            text-align: center;
-
-        }
-
-        .sidebar .nav-list{
-            height: 100%;
-        }
-
-        .sidebar li{
+        .search-container {
             position: relative;
-            margin:8px 0;
-            list-style: none;
+            max-width: 300px;
         }
 
-        .sidebar li .tooltip{
+        .search-container i {
             position: absolute;
-            top:-20px;
-            left:calc(100% + 15px);
-            z-index: 3;
-            background-color: var(--color-white);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-            padding: 6px 14px;
-            font-size: 15px;
-            font-weight: 400;
-            border-radius: 5px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .sidebar li:hover .tooltip{
-            opacity: 1;
-            pointer-events: auto;
-            transition: all 0.4s ease;
-            top:50%;
+            left: 10px;
+            top: 50%;
             transform: translateY(-50%);
+            color: #6c757d;
         }
 
-        .sidebar.open li .tooltip{
-            display: none;
-        }
-
-
-        .sidebar li a{
-            display: flex;
-            height: 100%;
-            width: 100%;
-            align-items: center;
-            text-decoration: none;
-            background-color: var(--color-default);
-            position: relative;
-            transition: all .5s ease;
-            z-index: 12;
-        }
-
-        .sidebar li a::after{
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            transform: scaleX(0);
-            background-color: var(--color-white);
-            border-radius: 5px;
-            transition: transform 0.3s ease-in-out;
-            transform-origin: left;
-            z-index: -2;
-        }
-
-        .sidebar li a:hover::after{
-            transform: scaleX(1);
-            color:var(--color-default)
-        }
-
-        .sidebar li a .link_name{
-            color:var(--color-white);
-            font-size: 15px;
-            font-weight: 400;
-            white-space: nowrap;
-            pointer-events: auto;
-            transition: all 0.4s ease;
-            pointer-events: none;
-            opacity: 0;
-        }
-
-        .sidebar li a:hover .link_name,
-        .sidebar li a:hover i{
-            transition: all 0.5s ease;
-            color:var(--color-default)
-        }
-
-        .sidebar.open li a .link_name{
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .sidebar li i{
-            height: 35px;
-            line-height: 35px;
-            font-size: 18px;
-            border-radius: 5px;
-        }
-        #cont1{
-            padding-left: 100px;
-        }
-        #cont2{
-            padding-left: 90px;
-        }
-        #cont3{
-            padding-left: 90px;
-        }
-        #cont4{
-            padding-left: 90px;
-        }
-        h1{
-            color: blue;
-        }
-        a{
-            color:black
-        }
-        th{
-            font-size: x-large;
-            font-family:Georgia, 'Times New Roman', Times, serif;
-        }
-        td{
-            font-size: x-large;
-            font-family:Georgia, 'Times New Roman', Times, serif;
-        }
-        h2{
-            color: blue;
-            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
-        }
-        p{
-            color:black;
-            font-family:Georgia, 'Times New Roman', Times, serif;
-            font-size: x-large;
-        }
-        h3{
-            text-align: center;
+        .search-input {
+            padding-left: 35px;
         }
     </style>
 </head>
 <body>
+<div class="container py-5">
+    <div class="card mb-5">
+        <div class="card-body">
+            <h1 class="text-center text-primary mb-4">Placement Status 2024 Batch</h1>
+            <p class="text-center text-muted">As on 18th April, 2024</p>
 
+            <div class="row g-4 mb-5">
+                <div class="col-md-4">
+                    <div class="stats-card text-center">
+                        <h3 class="text-primary" th:text="${totalOffers}">265</h3>
+                        <p class="mb-0">Total Offers</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card text-center">
+                        <h3 class="text-primary">50</h3>
+                        <p class="mb-0">Companies Visited</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stats-card text-center">
+                        <h3 class="text-primary">30 LPA</h3>
+                        <p class="mb-0">Highest Package</p>
+                    </div>
+                </div>
+            </div>
 
-<div class="navbar">
-    <div class="user-profile">
-        <i class="bx bx-user-circle"></i>
-    </div>
-    <div class="logout">
-        <form th:action="@{/logout}" method="post">
-            <button type="submit" class="btn">Logout</button>
-        </form>
+            <div class="table-container">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" class="form-control search-input" placeholder="Search companies or roles...">
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Role</th>
+                            <th class="text-center">Offers</th>
+                            <th class="text-end">Package</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>TCS Digital</td>
+                            <td>Digital Engineer</td>
+                            <td class="text-center">10</td>
+                            <td class="text-end">30 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Infosys Digital</td>
+                            <td>Power Programmer</td>
+                            <td class="text-center">8</td>
+                            <td class="text-end">28 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Accenture Digital</td>
+                            <td>Advanced Developer</td>
+                            <td class="text-center">7</td>
+                            <td class="text-end">25 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>HCL Technologies</td>
+                            <td>Technical Lead</td>
+                            <td class="text-center">6</td>
+                            <td class="text-end">24 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Wipro Digital</td>
+                            <td>Digital Specialist</td>
+                            <td class="text-center">5</td>
+                            <td class="text-end">22 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Cognizant Digital</td>
+                            <td>Digital Associate</td>
+                            <td class="text-center">9</td>
+                            <td class="text-end">20 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>LTI Mindtree</td>
+                            <td>Product Engineer</td>
+                            <td class="text-center">8</td>
+                            <td class="text-end">18 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Persistent Systems</td>
+                            <td>Software Engineer</td>
+                            <td class="text-center">7</td>
+                            <td class="text-end">17 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Capgemini Digital</td>
+                            <td>Digital Developer</td>
+                            <td class="text-center">6</td>
+                            <td class="text-end">16 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Tech Mahindra</td>
+                            <td>Digital Trainee</td>
+                            <td class="text-center">5</td>
+                            <td class="text-end">15 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Zoho Corporation</td>
+                            <td>Product Developer</td>
+                            <td class="text-center">4</td>
+                            <td class="text-end">14 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Freshworks</td>
+                            <td>Software Developer</td>
+                            <td class="text-center">6</td>
+                            <td class="text-end">13 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Oracle India</td>
+                            <td>Associate Consultant</td>
+                            <td class="text-center">5</td>
+                            <td class="text-end">12 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>IBM India</td>
+                            <td>Associate Developer</td>
+                            <td class="text-center">7</td>
+                            <td class="text-end">11 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Virtusa</td>
+                            <td>Technology Associate</td>
+                            <td class="text-center">8</td>
+                            <td class="text-end">10 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Mphasis</td>
+                            <td>Software Engineer</td>
+                            <td class="text-center">6</td>
+                            <td class="text-end">9.5 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Hexaware</td>
+                            <td>Trainee Engineer</td>
+                            <td class="text-center">5</td>
+                            <td class="text-end">9 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Cyient</td>
+                            <td>Software Developer</td>
+                            <td class="text-center">4</td>
+                            <td class="text-end">8.5 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Mindtree</td>
+                            <td>Engineer Trainee</td>
+                            <td class="text-center">7</td>
+                            <td class="text-end">8 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>L&T Technology</td>
+                            <td>Graduate Engineer</td>
+                            <td class="text-center">6</td>
+                            <td class="text-end">7.5 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>DXC Technology</td>
+                            <td>Associate Developer</td>
+                            <td class="text-center">5</td>
+                            <td class="text-end">7 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Genpact</td>
+                            <td>Software Engineer</td>
+                            <td class="text-center">4</td>
+                            <td class="text-end">6.5 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Sutherland</td>
+                            <td>Developer Trainee</td>
+                            <td class="text-center">6</td>
+                            <td class="text-end">6 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Infosys BPM</td>
+                            <td>System Engineer</td>
+                            <td class="text-center">8</td>
+                            <td class="text-end">5.5 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>TCS BPS</td>
+                            <td>IT Analyst</td>
+                            <td class="text-center">7</td>
+                            <td class="text-end">5 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Accenture BPO</td>
+                            <td>Associate Engineer</td>
+                            <td class="text-center">5</td>
+                            <td class="text-end">4.5 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Wipro BPO</td>
+                            <td>Project Trainee</td>
+                            <td class="text-center">6</td>
+                            <td class="text-end">4 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>HCL BPO</td>
+                            <td>Technical Associate</td>
+                            <td class="text-center">4</td>
+                            <td class="text-end">3.5 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Cognizant BPS</td>
+                            <td>Process Developer</td>
+                            <td class="text-center">5</td>
+                            <td class="text-end">3 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Tech Mahindra BPO</td>
+                            <td>Process Associate</td>
+                            <td class="text-center">7</td>
+                            <td class="text-end">2.5 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Capgemini BPO</td>
+                            <td>Junior Associate</td>
+                            <td class="text-center">6</td>
+                            <td class="text-end">2 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>LTI BPS</td>
+                            <td>Process Executive</td>
+                            <td class="text-center">5</td>
+                            <td class="text-end">1.8 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Mphasis BPO</td>
+                            <td>Process Trainee</td>
+                            <td class="text-center">4</td>
+                            <td class="text-end">1.5 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Hexaware BPO</td>
+                            <td>Support Associate</td>
+                            <td class="text-center">6</td>
+                            <td class="text-end">1.2 LPA</td>
+                        </tr>
+                        <tr>
+                            <td>Mindtree BPO</td>
+                            <td>Process Developer</td>
+                            <td class="text-center">5</td>
+                            <td class="text-end">1 LPA</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<div class="sidebar">
-    <div class="logo_details">
-        <img th:src="@{'/images/cps.png'}" height="100" width="100" >
-    </div>
-    <ul class="nav-list">
-        <li>
-            <a href="#">
-                <i class="bx bx-home" ></i>
-            </a>
-            <span class="tooltip">Home</span>
-        </li>
-        <li>
-            <a href="#">
-                <i class="bx bx-buildings" ></i>
-            </a>
-            <span class="tooltip">Company</span>
-        </li>
-        <li>
-            <a href="#">
-                <i class="bx bx-briefcase-alt" ></i>
-            </a>
-            <span class="tooltip">Drive</span>
-        </li>
-        <li>
-            <a href="#">
-                <i class="bx bx-bulb" ></i>
-            </a>
-            <span class="tooltip">Pre-Talk</span>
-        </li>
-        <li>
-            <a href="#">
-                <i class="bx bx-user"></i>
-            </a>
-            <span class="tooltip">Alumini</span>
-        </li>
-        <li>
-            <a href="#">
-                <i class="bx bx-sort-up"></i>
-            </a>
-            <span class="tooltip">Pre-Talk</span>
-        </li>
-    </ul>
-</div>
-<div id="cont2">
-</div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        const searchTerm = this.value.toLowerCase();
+        const table = document.querySelector('table');
+        const rows = table.getElementsByTagName('tr');
 
+        for (let i = 1; i < rows.length; i++) {
+            const company = rows[i].getElementsByTagName('td')[0];
+            const role = rows[i].getElementsByTagName('td')[1];
 
-<h2 style="text-align:center">Placement Status 2024 Batch (As on 18th April, 2024)</h2>
-    <h3>Total No. of Offers - 1254*</h3>
-    <h3>Students Placed - 1103*</h3>
-    <h3>Total No. of Companies Visited - 262*</h3>
+            if (company && role) {
+                const companyText = company.textContent || company.innerText;
+                const roleText = role.textContent || role.innerText;
 
-
-    <div class="container">
-
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th scope="col">COMPANY</th>
-                <th scope="col">ROLE</th>
-                <th scope="col">OFFER</th>
-                <th scope="col">SALARY</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th scope="row">Soliton Technologies</th>
-                <td>Data Analyst</td>
-                <td>9</td>
-                <td>17 LPA</td>
-            </tr>
-            <tr>
-                <th scope="row">Rently</th>
-                <td>Graphic Designer</td>
-                <td>11</td>
-                <td>16.5 LPA</td>
-            </tr>
-            <tr>
-                <th scope="row">Grootan Technologies</th>
-                <td>Content writer</td>
-                <td>7</td>
-                <td>16 LPA</td>
-            </tr>
-            <tr>
-                <th scope="row">Eunimart</th>
-                <td>Tester</td>
-                <td>6</td>
-                <td>15 LPA</td>
-            </tr>
-            <tr>
-                <th scope="row">Ajira Technologies</th>
-                <td>Customer support</td>
-                <td>6</td>
-                <td>14 LPA</td>
-            </tr>
-            <tr>
-                <th scope="row">Commscope</th>
-                <td>Tester</td>
-                <td>10</td>
-                <td>13 LPA</td>
-            </tr>
-            <tr>
-                <th scope="row">Tessolve Semiconductor</th>
-                <td>Content writer</td>
-                <td>29</td>
-                <td>12 LPA</td>
-            </tr>
-            <tr>
-                <th scope="row">Tensorgo</th>
-                <td>Customer support</td>
-                <td>48</td>
-                <td>11 LPA</td>
-            </tr>
-            <tr>
-                <th scope="row">VisAI Labs</th>
-                <td>Data analyst</td>
-                <td>39</td>
-                <td>10 LPA</td>
-            </tr>
-            <tr>
-                <th scope="row">Sirius Computer Solutions</th>
-                <td>Tester</td>
-                <td>56</td>
-                <td>9 LPA</td>
-            </tr>
-            <tr>
-                <th scope="row">Codingmart Technologies</th>
-                <td>Software developer</td>
-                <td>9</td>
-                <td>7 LPA</td>
-            </tr>
-            <tr>
-                <th scope="row">Terzo</th>
-                <td>Web designer</td>
-                <td>28</td>
-                <td>6 LPA</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
+                if (companyText.toLowerCase().indexOf(searchTerm) > -1 ||
+                    roleText.toLowerCase().indexOf(searchTerm) > -1) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        }
+    });
+</script>
 </body>
 </html>

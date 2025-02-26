@@ -1,116 +1,204 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Page</title>
-    <link rel="stylesheet" th:href="@{../css/styles.css}">
+    <title>Admin Login - Campus Placement Portal</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
     <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #1b5e20;
+            --light-color: #a5d6a7;
+            --bg-color: #f8f9fa;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #3bdc0f;
-            margin: 0;
-            padding: 0;
+            background: linear-gradient(135deg, var(--bg-color) 0%, var(--light-color) 100%);
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .container {
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        .login-container {
+            max-width: 900px;
+            width: 100%;
             padding: 20px;
-            width: 300px;
-            text-align: center;
         }
 
-        .container h2 {
-            color: #3bdc0f;
-        }
-
-        .input-group {
-            margin-bottom: 10px;
-        }
-
-        .input-group label {
-            display: block;
-            font-weight: bold;
-            text-align: left;
-        }
-
-        .input-group input {
-            width: 285px;
-            padding: 5px;
-            margin-top: 0px;
-            margin-bottom: 0px;
-            border: 1px solid #3bdc0f;
-            border-radius: 5px;
-        }
-
-        .form-check {
-            text-align: left;
-        }
-
-        .input-group input:focus {
-            outline-color: #3bdc0f;
-        }
-
-        .btn {
-            background-color: #3bdc0f;
-            color: #fff;
+        .login-card {
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
 
-        .btn:hover {
-            background-color: #3bdc0f;
-        }
-
-        .message {
-            background-color:#3bdc0f;
+        .card-header {
+            background-color: var(--primary-color);
             color: white;
-            padding: 5px;
-            border-radius: 5px;
+            font-weight: 600;
+            padding: 20px;
+            border-bottom: none;
         }
 
-        p {
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.25);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 10px 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .login-image-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-color);
+            padding: 20px;
+            height: 100%;
+        }
+
+        .login-image-container img {
+            max-width: 90%;
+            max-height: 400px;
+            object-fit: contain;
+        }
+
+        .notification {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .logo-small {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .login-footer {
+            font-size: 0.9rem;
+            color: #6c757d;
             text-align: center;
+            margin-top: 20px;
+        }
+
+        .alternate-login {
+            font-size: 0.9rem;
+            padding-top: 15px;
+            border-top: 1px solid #dee2e6;
+            margin-top: 20px;
+        }
+
+        .alternate-login a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .alternate-login a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
+<div class="container login-container">
+    <div class="card login-card">
+        <div class="row g-0">
+            <!-- Left side - Login Form -->
+            <div class="col-md-6">
+                <div class="card-body p-4 p-md-5">
+                    <div class="d-flex align-items-center mb-4">
+                        <img th:src="@{'/images/cps.png'}" alt="College Logo" class="logo-small">
+                        <h2 class="fw-bold mb-0">Campus Placement Portal</h2>
+                    </div>
 
+                    <h4 class="mb-4 text-primary">Admin Login</h4>
 
-<div class="container">
+                    <div th:if="${message != null}" class="notification">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        [[${message}]]
+                    </div>
 
+                    <form th:action="@{/admin}" method="post" role="form" th:object="${user}">
+                        <div class="mb-4">
+                            <label for="email" class="form-label fw-semibold">Email Address</label>
+                            <div class="input-group">
+                                    <span class="input-group-text">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+                                        </svg>
+                                    </span>
+                                <input th:field="*{email}" type="email" class="form-control" id="email" placeholder="admin@college.edu" required>
+                            </div>
+                        </div>
 
-    <div class="left-section"><h2>Admin Login</h2>
-        <p>Are you a student?<a th:href="@{/login}">Login here</a></p>
-        <div th:if="${message != null}" class="message">
-            [[${message}]]
+                        <div class="mb-4">
+                            <label for="pass" class="form-label fw-semibold">Password</label>
+                            <div class="input-group">
+                                    <span class="input-group-text">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                                            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+                                        </svg>
+                                    </span>
+                                <input th:field="*{password}" type="password" class="form-control" id="pass" placeholder="Enter your password" required>
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Sign In</button>
+                        </div>
+
+                        <div class="alternate-login">
+                            <p class="mb-0">Are you a student? <a th:href="@{/login}">Student Login</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right side - Image and Info -->
+            <div class="col-md-6 d-none d-md-block">
+                <div class="login-image-container h-100">
+                    <div class="text-center text-white">
+                        <img th:src="@{'/images/cps.png'}" alt="Placement Portal" class="img-fluid mb-4">
+                        <h3 class="mb-3">Campus Placement Portal</h3>
+                        <p class="mb-4">Manage placement activities, track student applications, and coordinate with recruiters efficiently.</p>
+                        <div class="bg-white bg-opacity-10 p-3 rounded-3">
+                            <h5 class="mb-3">Admin Dashboard Features</h5>
+                            <ul class="list-unstyled text-start">
+                                <li class="mb-2">✓ Manage company profiles</li>
+                                <li class="mb-2">✓ Schedule placement drives</li>
+                                <li class="mb-2">✓ Track student statistics</li>
+                                <li>✓ Generate placement reports</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <form th:action="@{/admin}" method="post" role="form" th:object="${user}">
-            <div class="input-group">
-                <label for="email">Email:</label>
-                <input th:field="*{email}" type="email" id="email" name="email" placeholder="Enter your email" required>
-            </div>
-            <div class="input-group">
-                <label for="pass">Password:</label>
-                <input th:field="*{password}" type="password" id="pass" name="pass" placeholder="Enter your Password" required>
-            </div>
-            <button type="submit" class="btn">Login</button>
-        </form>
+    <div class="login-footer mt-3">
+        © 2025 Campus Placement Portal. All rights reserved.
     </div>
 </div>
 
-<div>
-    <img th:src="@{'/images/cps.png'}" class="img-fluid">
-</div>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +6,7 @@
     <title>Student Registration - CPS</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
-    
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
@@ -499,7 +498,7 @@
                 <p class="card-description">
                     Register new students to the placement portal. Track their progress, skills, and placement status.
                 </p>
-                
+
                 <div class="card-stats">
                     <div class="stat-item">
                         <span class="stat-value">100%</span>
@@ -514,7 +513,7 @@
                         <span class="stat-label">Management</span>
                     </div>
                 </div>
-                
+
                 <div class="card-action">
                     <a th:href="@{/registration}" class="btn" id="st">
                         <i class="bx bx-user-plus"></i> Add Student
@@ -532,17 +531,17 @@
     document.addEventListener('DOMContentLoaded', function() {
         const sidebar = document.querySelector('.sidebar');
         const logoDetails = document.querySelector('.logo_details');
-        
+
         logoDetails.addEventListener('click', function() {
             sidebar.classList.toggle('open');
         });
-        
+
         // Add hover animation for button
         const addButton = document.getElementById('st');
         addButton.addEventListener('mouseenter', function() {
             this.innerHTML = '<i class="bx bx-user-plus"></i> Let\'s Go!';
         });
-        
+
         addButton.addEventListener('mouseleave', function() {
             this.innerHTML = '<i class="bx bx-user-plus"></i> Add Student';
         });
@@ -550,15 +549,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-        

@@ -3,59 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCB</title>
+    <title>Company Placement Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #00A5E3!important;
+        :root {
+            --primary-color: #00A5E3;
+            --secondary-color: #2C3E50;
+            --accent-color: #F39C12;
+            --light-bg: #f5f8fa;
+            --text-dark: #2C3E50;
+            --text-light: #7F8C8D;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color), #0077aa);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .header {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .company-intro {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
             align-items: center;
-            height: 100vh;
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" >
-    <style>
-        .card
-        {
-            background: #e5e5e5;
-            border: none !important;
-            border-radius: 20px !important;
-        }
-        .card:hover
-        {
-            box-shadow: inset 5px 5px 10px rgba(0,0,0,.3),
-            inset -4px -4px 10px rgb(249, 234, 234);
-            transition: .2s;
-
         }
 
+        .company-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .company-info h1 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .info-item {
+            background: var(--light-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .info-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-item i {
+            color: var(--primary-color);
+            margin-right: 0.5rem;
+        }
+
+        .section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .round-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .round-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 2rem;
+            border-left: 2px solid var(--primary-color);
+        }
+
+        .round-item:last-child {
+            border-left: none;
+        }
+
+        .round-item::before {
+            content: '';
+            position: absolute;
+            left: -1rem;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        .round-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .requirements-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .requirements-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .requirements-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        .important-note {
+            background: #FFF3E0;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .important-note i {
+            color: var(--accent-color);
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .company-intro {
+                grid-template-columns: 1fr;
+            }
+
+            .company-image {
+                height: 250px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <div class="row">
-        <div >
-            <div class="card" >
-                <div class="row no-gutters">
-                    <div class="col-sm-5 d-flex justify-content-center" th:if="${product != null}">
-                        <img th:src="@{'/images/' + ${product.image}}" height="350px" width="300px" >
+    <div class="header">
+        <div class="company-intro">
+            <img th:src="@{'/images/' + ${product.image}}" alt="Company Logo" class="company-image">
+            <div class="company-info">
+                <h1 th:text="${product.name}">Company Name</h1>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="fas fa-briefcase"></i>
+                        <strong>Role:</strong>
+                        <span th:text="${product.job}">Software Engineer</span>
                     </div>
-                    <div class="col-sm-5 card-body">
-                        <h5  ><b>NAME: </b><span th:text="${product.name}"></span></h5>
-                        <h5  ><b>JOB: </b><span th:text="${product.job}"></span></h5>
-                        <h5  ><b>SALARY </b>₹<span class="card-title" th:text="${product.salary}"></span>LPA</h5>
-                        <h5  ><b>LOCATION: </b><span th:text="${product.location}"></span></h5>
-                        <h5  ><b>DESCRIPTION: </b><br><span th:text="${product.description}"> </span></h5>
-                        <br>
-                        <h5  ><b>ROUND: </b><span th:text="${product.round}"></span></h5>
-
+                    <div class="info-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <strong>Package:</strong>
+                        ₹<span th:text="${product.salary}">12</span> LPA
                     </div>
-
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <strong>Location:</strong>
+                        <span th:text="${product.location}">Bangalore</span>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">About Company</h2>
+        <p th:text="${product.description}">Company description goes here...</p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Selection Process</h2>
+        <div class="round-timeline">
+            <div class="round-item">
+                <h3 class="round-title">Round 1: Online Assessment</h3>
+                <p>Duration: 2 hours</p>
+                <ul class="requirements-list">
+                    <li>Aptitude and Logical Reasoning</li>
+                    <li>Technical MCQs</li>
+                    <li>Coding Problems (2-3 questions)</li>
+                </ul>
+            </div>
+
+            <div class="round-item">
+                <h3 class="round-title">Round 2: Technical Interview</h3>
+                <p>Duration: 1 hour</p>
+                <ul class="requirements-list">
+                    <li>Data Structures & Algorithms</li>
+                    <li>Problem Solving</li>
+                    <li>Core CS Fundamentals</li>
+                </ul>
+            </div>
+
+            <div class="round-item">
+                <h3 class="round-title">Round 3: Technical Interview</h3>
+                <p>Duration: 1 hour</p>
+                <ul class="requirements-list">
+                    <li>System Design</li>
+                    <li>Project Discussion</li>
+                    <li>Technical Deep Dive</li>
+                </ul>
+            </div>
+
+            <div class="round-item">
+                <h3 class="round-title">Round 4: HR Interview</h3>
+                <p>Duration: 45 minutes</p>
+                <ul class="requirements-list">
+                    <li>Behavioral Questions</li>
+                    <li>Salary Discussion</li>
+                    <li>Company Policies</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Eligibility & Requirements</h2>
+        <ul class="requirements-list">
+            <li>B.Tech/B.E in Computer Science or related fields</li>
+            <li>Minimum 7.5 CGPA or 75% throughout academics</li>
+            <li>No active backlogs</li>
+            <li>Strong programming fundamentals</li>
+            <li>Good communication skills</li>
+        </ul>
+
+        <div class="important-note">
+            <i class="fas fa-info-circle"></i>
+            <strong>Important:</strong> Students must carry all original documents, college ID, and resume during the interview process.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Important Dates</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <i class="fas fa-calendar-check"></i>
+                <strong>Registration Deadline:</strong>
+                <p>October 15, 2024</p>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-laptop-code"></i>
+                <strong>Online Assessment:</strong>
+                <p>October 20, 2024</p>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-users"></i>
+                <strong>Interviews:</strong>
+                <p>October 25-27, 2024</p>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-flag-checkered"></i>
+                <strong>Results:</strong>
+                <p>November 1, 2024</p>
             </div>
         </div>
     </div>

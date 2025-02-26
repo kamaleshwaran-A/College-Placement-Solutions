@@ -3,36 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCB</title>
-    <link rel="stylesheet" th:href="@{../css/sr.css}">
+    <title>Campus Placement Portal - Opt In</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            margin: 2rem;
+        }
+
+        h2 {
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.75rem;
+        }
+
+        .message {
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-
 <div class="container">
-    <h2>ADD STUDENT</h2>
+    <h2>Student Registration</h2>
 
-    <div th:if="${message != null}" class="message">
-        [[${message}]]
-    </div>
+    <div th:if="${message != null}" class="message" th:text="${message}"></div>
 
-    <form th:action="@{/product}" method="post" role="form"th:object="${product}">
+    <form th:action="@{/product}" method="post" role="form" th:object="${product}">
         <div class="input-group">
-            <label for="name">Name:</label>
-            <input th:field="*{name}" type="text" id="name" name="name" placeholder="Enter Your Name" required>
+            <label for="name">Full Name</label>
+            <input
+                    th:field="*{name}"
+                    type="text"
+                    id="name"
+                    placeholder="Enter your full name"
+                    required
+            >
         </div>
+
         <div class="input-group">
-            <label for="job">ROLL NO:</label>
-            <input th:field="*{rno}" type="text" id="job" name="job" placeholder="Enter Your rollno" required>
+            <label for="job">Roll Number</label>
+            <input
+                    th:field="*{rno}"
+                    type="text"
+                    id="job"
+                    placeholder="Enter your roll number"
+                    required
+            >
         </div>
+
         <div class="input-group">
-            <label for="location">CGPA:</label>
-            <input th:field="*{cgpa}" type="text" id="location" name="location" placeholder="Enter Your cgpa" required>
+            <label for="location">CGPA</label>
+            <input
+                    th:field="*{cgpa}"
+                    type="number"
+                    id="location"
+                    placeholder="Enter your CGPA"
+                    step="0.01"
+                    min="0"
+                    max="10"
+                    required
+            >
         </div>
+
         <div class="input-group">
-            <label for="loc">COMPANY:</label>
-            <input th:field="*{company}" type="text" id="loc" name="location" placeholder="Enter Your Interest Company " required>
+            <label for="loc">Preferred Company</label>
+            <input
+                    th:field="*{company}"
+                    type="text"
+                    id="loc"
+                    placeholder="Enter your preferred company"
+                    required
+            >
         </div>
-        <button type="submit" class="btn">OPT IN</button>
+
+        <button type="submit" class="btn">Submit Registration</button>
     </form>
 </div>
 </body>
