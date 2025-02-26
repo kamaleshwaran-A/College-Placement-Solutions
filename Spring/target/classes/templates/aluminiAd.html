@@ -1,261 +1,54 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
     <title>Mini Store</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-        :root{
-            --color-default: #000000;
-            --color-second:#0067ac;
-            --color-white:#fff;
-            --color-body:#e4e9f7;
-            --color-light:#e0e0e0;
+        :root {
+            --primary-color: #3a86ff;
+            --secondary-color: #8338ec;
+            --accent-color: #ff006e;
+            --dark-color: #1a1a2e;
+            --light-color: #ffffff;
+            --background-color: #f8f9fa;
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            --hover-shadow: 0 15px 30px rgba(58, 134, 255, 0.2);
+            --transition: all 0.3s ease;
+            --border-radius: 8px;
+            --success-color: #198754;
         }
 
-
-        *{
-            padding: 0%;
-            margin: 0%;
+        * {
+            padding: 0;
+            margin: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
         }
 
-        body{
-            min-height: 100vh;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 30px;
-            background-color: var(--color-default);
-            color: #fff;
-        }
-        .user-profile, .logout {
-            display: flex;
-            align-items: center;
-        }
-        .user-profile i {
-            font-size: 24px;
-            color: white;
-            margin-right: 20px;
-        }
-        .btn {
-            background-color:  #0077A8;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .btn:hover {
-            background-color:  red;
-        }
-        .navbar .logo_details {
-            display: flex;
-            align-items: center;
-        }
-
-        .navbar .user-profile {
-            margin-left: auto;
-        }
-
-        .navbar .user-profile i {
-            font-size: 24px;
-            cursor: pointer;
-        }
-        .sidebar{
-            min-height: 100vh;
-            width: 78px;
-            padding: 6px 14px;
-            z-index: 99;
-            background-color: var(--color-default);
-            transition: all .5s ease;
-            position: fixed;
-            top:0;
-            left: 0;
-        }
-
-        .sidebar.open{
-            width: 250px;
-        }
-
-        .sidebar .logo_details{
-            height: 100px;
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-        .sidebar .logo_details .icon{
-
-            opacity: 0;
-            transition: all 0.5s ease ;
-        }
-
-        .sidebar .logo_details .logo_name{
-            color:var(--color-white);
-            font-size: 22px;
-            font-weight: 600;
-            opacity: 0;
-            transition: all .5s ease;
-        }
-
-        .sidebar.open .logo_details .icon,
-        .sidebar.open .logo_details .logo_name{
-            opacity: 1;
-        }
-
-        .sidebar .logo_details #btn{
-            position: absolute;
-            top:50%;
-            right: 0;
-            transform: translateY(-50%);
-            font-size: 23px;
-            text-align: center;
-            cursor: pointer;
-            transition: all .5s ease;
-        }
-
-        .sidebar.open .logo_details #btn{
-            text-align: right;
-        }
-
-        .sidebar i{
-            color:var(--color-white);
-            height: 60px;
-            line-height: 60px;
-            min-width: 50px;
-            font-size: 50px;
-            text-align: center;
-        }
-        .sidebar .bx {
-            color:var(--color-white);
-            height: 70px;
-            line-height: 60px;
-            min-width: 50px;
-            font-size: 2em;
-            text-align: center;
-
-        }
-
-        .sidebar .nav-list{
-            height: 100%;
-        }
-
-        .sidebar li{
-            position: relative;
-            margin:8px 0;
-            list-style: none;
-        }
-
-        .sidebar li .tooltip{
-            position: absolute;
-            top:-20px;
-            left:calc(100% + 15px);
-            z-index: 3;
-            background-color: var(--color-white);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-            padding: 6px 14px;
-            font-size: 15px;
-            font-weight: 400;
-            border-radius: 5px;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .sidebar li:hover .tooltip{
-            opacity: 1;
-            pointer-events: auto;
-            transition: all 0.4s ease;
-            top:50%;
-            transform: translateY(-50%);
-        }
-
-        .sidebar.open li .tooltip{
-            display: none;
-        }
-
-
-        .sidebar li a{
-            display: flex;
-            height: 100%;
-            width: 100%;
-            align-items: center;
-            text-decoration: none;
-            background-color: var(--color-default);
-            position: relative;
-            transition: all .5s ease;
-            z-index: 12;
-        }
-
-        .sidebar li a::after{
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            transform: scaleX(0);
-            background-color: var(--color-white);
-            border-radius: 5px;
-            transition: transform 0.3s ease-in-out;
-            transform-origin: left;
-            z-index: -2;
-        }
-
-        .sidebar li a:hover::after{
-            transform: scaleX(1);
-            color:var(--color-default)
-        }
-
-        .sidebar li a .link_name{
-            color:var(--color-white);
-            font-size: 15px;
-            font-weight: 400;
-            white-space: nowrap;
-            pointer-events: auto;
-            transition: all 0.4s ease;
-            pointer-events: none;
-            opacity: 0;
-        }
-
-        .sidebar li a:hover .link_name,
-        .sidebar li a:hover i{
-            transition: all 0.5s ease;
-            color:var(--color-default)
-        }
-
-        .sidebar.open li a .link_name{
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .sidebar li i{
-            height: 35px;
-            line-height: 35px;
-            font-size: 18px;
-            border-radius: 5px;
-        }
-        #cont1{
-            padding-left: 100px;
-            padding-top: 20px;
-        }
-        h2{
-            color: blue;
-            font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
-        }
-        p{
-            color:black;
-            font-family:Georgia, 'Times New Roman', Times, serif;
-            font-size: 20px;
-        }
         body {
+            min-height: 100vh;
+            background: var(--background-color);
+            background-image: linear-gradient(135deg, #f5f7fa 0%, #e5e9f2 100%);
             position: relative;
         }
 
@@ -268,144 +61,499 @@
             height: 100%;
             background-image: url('https://collegeplacementsolutions.com/wp-content/uploads/College-Placement-Solutions-Logo.png');
             background-repeat: no-repeat;
-            background-size: 25% 25%;
+            background-size: 20% auto;
             background-position: center;
+            opacity: 0.05;
             z-index: -1;
         }
 
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: linear-gradient(to right, var(--dark-color), var(--primary-color));
+            color: var(--light-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 50;
+        }
+
+        .user-profile, .logout {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-profile i {
+            font-size: 28px;
+            color: var(--light-color);
+            margin-right: 20px;
+            transition: var(--transition);
+        }
+
+        .user-profile i:hover {
+            color: var(--accent-color);
+            transform: scale(1.1);
+        }
+
         .btn {
-            background-color: #00A5E3 !important;
-            color: #fff;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: var(--light-color);
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 10px 25px;
+            border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(131, 56, 236, 0.4);
+            transition: var(--transition);
         }
+
         .btn:hover {
-            background-color: #0077A8 !important;
+            background: linear-gradient(to right, var(--secondary-color), var(--accent-color));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 0, 110, 0.5);
         }
-        #add
-        {
-            margin-left: 150px;
+
+        /* Sidebar Styling */
+        .sidebar {
+            min-height: 100vh;
+            width: 78px;
+            padding: 6px 14px;
+            z-index: 99;
+            background: linear-gradient(180deg, var(--dark-color) 0%, var(--primary-color) 100%);
+            transition: var(--transition);
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar.open {
+            width: 250px;
+        }
+
+        .sidebar .logo_details {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .sidebar .logo_details .icon {
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .sidebar .logo_details .logo_name {
+            color: var(--light-color);
+            font-size: 22px;
+            font-weight: 600;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .sidebar.open .logo_details .icon,
+        .sidebar.open .logo_details .logo_name {
+            opacity: 1;
+        }
+
+        .sidebar i {
+            color: var(--light-color);
+            height: 60px;
+            line-height: 60px;
+            min-width: 50px;
+            font-size: 25px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .sidebar .nav-list {
+            height: 100%;
             margin-top: 30px;
         }
 
-        #product{
+        .sidebar li {
+            position: relative;
+            margin: 15px 0;
+            list-style: none;
+        }
 
+        .sidebar li .tooltip {
+            position: absolute;
+            top: -20px;
+            left: calc(100% + 15px);
+            z-index: 3;
+            background-color: var(--light-color);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            padding: 8px 16px;
+            font-size: 15px;
+            font-weight: 400;
+            border-radius: 50px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .sidebar li:hover .tooltip {
+            opacity: 1;
+            pointer-events: auto;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .sidebar.open li .tooltip {
+            display: none;
+        }
+
+        .sidebar li a {
+            display: flex;
+            height: 100%;
             width: 100%;
-            min-height: 100vh;
+            align-items: center;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: var(--transition);
+        }
+
+        .sidebar li a:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .sidebar li a .link_name {
+            color: var(--light-color);
+            font-size: 15px;
+            font-weight: 400;
+            white-space: nowrap;
+            pointer-events: none;
+            transition: var(--transition);
+            opacity: 0;
+        }
+
+        .sidebar.open li a .link_name {
+            opacity: 1;
+            pointer-events: auto;
+        }
+          /* Main Content Styling */
+          #cont1 {
+            padding-left: 100px;
+            padding-top: 20px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        p {
+            color: var(--dark-color);
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        #add {
+            margin-left: 150px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        #product {
+            width: 100%;
+            min-height: 80vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            background: #e5e5e5;
-
+            align-items: flex-start;
+            padding: 40px 0;
+            margin-top: 20px;
         }
-        #product h1{
+
+        #product h1 {
             font-size: 50px;
             letter-spacing: 2px;
             font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+        }
 
+        /* Card Styling - Enhanced */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            width: 100%;
         }
-        #product img{
-            width: 200px;
-            height: 200px;
-        }
-        .card
-        {
-            width: 275px;
-            height: 325px;
-            background: #e5e5e5 !important;
+
+        .card {
+            width: 280px;
+            height: 360px;
+            background: rgba(255, 255, 255, 0.9) !important;
             border: none !important;
-            box-shadow: 15px 20px 20px rgba(0,0,0,.3),
-            inset 4px 4px 10px rgb(249, 232, 232);
             border-radius: 20px !important;
             overflow: hidden;
-            justify-content: center;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            margin: 20px 60px;
-            transition: .2s;
-
-        }
-        .card:hover
-        {
-            box-shadow: inset 5px 5px 10px rgba(0,0,0,.3),
-            inset -4px -4px 10px rgb(249, 234, 234);
-            transition: .2s;
-
+            position: relative;
+            box-shadow: var(--card-shadow);
         }
 
+        .card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            clip-path: polygon(0 0, 100% 0, 100% 60%, 0% 100%);
+        }
+
+        .card img {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-top: 50px;
+            border: 5px solid white;
+            z-index: 2;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .card:hover img {
+            transform: scale(1.05);
+        }
+
+        .card-body {
+            padding: 20px;
+            text-align: center;
+            z-index: 2;
+            margin-top: 10px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 5px;
+        }
+
+        .card h6 {
+            color: var(--primary-color);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .card-body .company {
+            font-weight: 600;
+            color: var(--secondary-color);
+            background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-social {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            transition: var(--transition);
+            background: var(--primary-color);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px);
+            background: var(--accent-color);
+        }
+
+        /* Add Alumni Button */
+        .btn-add {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(58, 134, 255, 0.3);
+        }
+
+        .btn-add:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(58, 134, 255, 0.5);
+            background: linear-gradient(to right, var(--secondary-color), var(--accent-color));
+        }
+
+        .btn-add i {
+            font-size: 20px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fadeIn 0.5s ease forwards;
+            animation-delay: calc(var(--i) * 0.1s);
+            opacity: 0;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .card {
+                width: 90%;
+                max-width: 280px;
+            }
+            
+            #add {
+                margin-left: 100px;
+            }
+            
+            .navbar {
+                padding: 15px 20px;
+            }
+        }
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
 </head>
 <body>
 
 <div class="navbar">
     <div class="user-profile">
         <i class="bx bx-user-circle"></i>
+        <span style="font-weight: 500; letter-spacing: 0.5px;"></span>
     </div>
     <div class="logout">
         <form th:action="@{/logout}" method="post">
-            <button type="submit" class="btn">Logout</button>
+            <button type="submit" class="btn"><i class="bx bx-log-out-circle"></i> Logout</button>
         </form>
     </div>
 </div>
+
 <div class="sidebar">
     <div class="logo_details">
-        <img th:src="@{'/images/cps.png'}" height="100" width="100" >
+        <img th:src="@{'/images/cps.png'}" height="80" width="80">
     </div>
     <ul class="nav-list">
         <li>
-            <a th:href = "@{/adminhome}">
-                <i class="bx bx-home" ></i>
+            <a th:href="@{/adminhome}">
+                <i class="bx bx-home"></i>
+                <span class="link_name">Dashboard</span>
             </a>
             <span class="tooltip">Home</span>
         </li>
 
         <li>
-            <a  th:href = "@{/adminDrive}">
-                <i class="bx bx-briefcase-alt" ></i>
+            <a th:href="@{/adminDrive}">
+                <i class="bx bx-briefcase-alt"></i>
+                <span class="link_name">Placement Drives</span>
             </a>
             <span class="tooltip">Drive</span>
         </li>
 
         <li>
-            <a th:href = "@{/allAlumini}">
+            <a th:href="@{/allAlumini}" class="active">
                 <i class="bx bx-user"></i>
+                <span class="link_name">Alumni Network</span>
             </a>
-            <span class="tooltip">Alumini</span>
+            <span class="tooltip">Alumni</span>
         </li>
+        
         <li>
-            <a th:href = "@{/student}">
-                <i class="bx bx-buildings" ></i>
+            <a th:href="@{/student}">
+                <i class="bx bx-buildings"></i>
+                <span class="link_name">Recruitment</span>
             </a>
             <span class="tooltip">Recruitment Process</span>
         </li>
 
+      
+    
     </ul>
 </div>
-<div class = "row" id="add">
-    <div class = "col-lg-3">
-        <a th:href = "@{/addAlu}" class = "btn btn-primary btn-sm mb-3"> Add Alumini</a>
+
+<div class="row" id="add">
+    <div class="col-lg-6">
+        <h2 class="mb-4" style="font-weight: 700; letter-spacing: 0.5px; color: #333;">Alumni Network</h2>
+        <p class="text-muted mb-4">Discover our successful graduates and their career journeys.</p>
+    </div>
+    <div class="col-lg-6 text-right">
+        <a th:href="@{/addAlu}" class="btn-add">
+            <i class="bx bx-user-plus"></i> Add New Alumni
+        </a>
     </div>
 </div>
+
 <div id="product" class="container">
-    <div class="row" >
-        <div class="col-lg-4 col-md-4 col-12"  th:each="pro:${all}">
-            <div class="card" >
-                <img th:src="@{'/images/stu.jpeg'}" >
-                <div class="card-body">
-                    <h5 class="card-title" th:text="${pro.name}"></h5>
-                    <h6><span class="card-title" th:text="${pro.department}"></span></h6>
-                    <h6 class="card-title" th:text="${pro.company}"></h6>
+    <div class="card-container">
+        <div class="card" th:each="pro:${all}" style="--i: 0">
+            <img th:src="@{'/images/stu.jpeg'}" alt="Alumni Profile">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${pro.name}">John Doe</h5>
+                <h6><span class="badge" style="background: rgba(58, 134, 255, 0.15); color: var(--primary-color); padding: 5px 12px; border-radius: 50px; font-size: 0.85rem;" th:text="${pro.department}">Computer Science</span></h6>
+                <h6 class="company" th:text="${pro.company}">Google</h6>
+                
+                <div class="card-social">
+                    <a href="#" class="social-icon"><i class="bx bxl-linkedin"></i></a>
+                    <a href="#" class="social-icon"><i class="bx bx-envelope"></i></a>
+                    <a href="#" class="social-icon"><i class="bx bxs-phone"></i></a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Animation for cards
+    document.addEventListener('DOMContentLoaded', function() {
+        let cards = document.querySelectorAll('.card');
+        cards.forEach((card, index) => {
+            card.style.setProperty('--i', index);
+        });
+        
+        // Toggle sidebar functionality
+        let sidebar = document.querySelector(".sidebar");
+        let closeBtn = document.querySelector("#btn");
+        
+        closeBtn?.addEventListener("click", () => {
+            sidebar.classList.toggle("open");
+        });
+    });
+</script>
 </body>
 </html>
+
+
+
+
