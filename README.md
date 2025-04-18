@@ -1,7 +1,7 @@
-# College Placement System 🎓
+# Placematics 🎓
 
 ## 📌 Description
-The **College Placement System** is a comprehensive full-stack web application developed to streamline and digitize the campus placement process. This system allows:
+The **Placematics** is a comprehensive full-stack web application developed to streamline and digitize the campus placement process. This system allows:
 
 - 👨‍🎓 Students to register, update profiles, and apply for job openings.
 - 🏢 Companies to post job opportunities and manage candidate applications.
